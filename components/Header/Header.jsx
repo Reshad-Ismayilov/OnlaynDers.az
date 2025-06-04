@@ -141,7 +141,7 @@ const Header = () => {
                 {t('login')}
               </button>
             )}
-            <LanguageSwitcher />
+            {/* <LanguageSwitcher /> */}
           </ul>
         </div>
       )}
