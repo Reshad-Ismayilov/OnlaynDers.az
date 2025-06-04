@@ -63,21 +63,16 @@ const Header = () => {
     <div className={`${inter.className} w-full bg-white shadow-md`}>
       <div className="flex justify-between items-center py-3 border-b-2 border-gray-300 rounded-b-2xl md:px-14 max-sm:px-3">
         <Link href={"/"}>
-          <img src="/navImg/nav-img.svg" alt="Logo" />
+          <img width={200} src="https://itbrains.edu.az/src/img/logo.png" alt="Logo" />
         </Link>
 
         {/* Desktop Nav */}
         <div className="max-sm:hidden md:block">
           <ul className="flex space-x-12 font-[600] text-[16px]">
-            <Link href="/" className={`cursor-pointer transition-colors ${pathname === "/" ? "text-red-400" : ""}`}>
-              {t('home')}
-            </Link>
             <Link href="/courses" className={`cursor-pointer transition-colors ${pathname === "/courses" ? "text-red-400" : ""}`}>
               {t('courses')}
             </Link>
-            <Link href="/about" className={`cursor-pointer transition-colors ${pathname === "/about" ? "text-red-400" : ""}`}>
-              {t('about')}
-            </Link>
+      
           </ul>
         </div>
         {/* Mobile Right */}
@@ -112,7 +107,6 @@ const Header = () => {
           ) : (
             <Enter />
           )}
-          <LanguageSwitcher />
         </div>
       </div>
 
@@ -125,9 +119,7 @@ const Header = () => {
             </button>
           </div>
           <ul className="flex flex-col mt-6 space-y-4 font-semibold">
-            <Link href="/" onClick={closeSidebar}>{t('home')}</Link>
             <Link href="/courses" onClick={closeSidebar}>{t('courses')}</Link>
-            <Link href="/about" onClick={closeSidebar}>{t('about')}</Link>
             {!loading && isAuthenticated ? (
               <Logout />
             ) : (
@@ -141,7 +133,6 @@ const Header = () => {
                 {t('login')}
               </button>
             )}
-            {/* <LanguageSwitcher /> */}
           </ul>
         </div>
       )}
