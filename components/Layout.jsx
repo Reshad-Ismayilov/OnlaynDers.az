@@ -31,7 +31,7 @@ export default function Layout({ children }) {
     <Context>
       <Header />
       <main>{children}</main>
-      <Footer />
+      {/* <Footer /> */}
     </Context>
   );
 }
