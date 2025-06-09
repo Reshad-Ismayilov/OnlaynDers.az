@@ -37,7 +37,7 @@ const VideoPlayer = ({ lesson }) => {
 
   return (
     <div className="w-full h-full rounded-xl overflow-hidden">
-      <ReactPlayer
+      {/* <ReactPlayer
         ref={playerRef}
         url={lesson.videoUrl}
         controls
@@ -45,7 +45,7 @@ const VideoPlayer = ({ lesson }) => {
         height="100%"
         onProgress={handleProgress}
         onDuration={handleDuration}
-      />
+      /> */}
     </div>
   );
 };
