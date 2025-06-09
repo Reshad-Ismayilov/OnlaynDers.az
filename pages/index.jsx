@@ -87,6 +87,9 @@ function HomePage() {
         <meta name="description" content="Online dərs platforması" />
       </Head>
 
+      <iframe src="https://player.vimeo.com/video/1091788621"></iframe>
+
+
       <div className="min-h-screen flex items-center justify-center px-4 bg-gray-50">
         <div className="bg-white shadow-2xl rounded-3xl p-8 w-full max-w-md">
           <div className="flex flex-col items-center gap-4 mb-6">
