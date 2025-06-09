@@ -114,9 +114,6 @@ export default function RegisterPage() {
     <div className={`${DMSans.className} flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4`}>
       <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
 
-        <p className="text-center text-gray-700 mb-6">
-          Join us and get more benefits. We promise to keep your data safely.
-        </p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {/* First Name */}
