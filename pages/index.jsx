@@ -87,18 +87,13 @@ function HomePage() {
         <meta name="description" content="Online dərs platforması" />
       </Head>
 
-      <iframe src="https://player.vimeo.com/video/1091788621"></iframe>
-
-
       <div className="min-h-screen flex items-center justify-center px-4 bg-gray-50">
         <div className="bg-white shadow-2xl rounded-3xl p-8 w-full max-w-md">
           <div className="flex flex-col items-center gap-4 mb-6">
             <h2 className="text-2xl font-semibold text-gray-800">
               Online dərs platformasına xoş gəldiniz!
             </h2>
-            <p className="text-gray-500 text-sm text-center">
-              Platformaya daxil olun və tədrisə başlayın. Məlumatlarınız bizdə təhlükəsizdir.
-            </p>
+           
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -138,13 +133,6 @@ function HomePage() {
             </button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-gray-500">və ya sosial hesabla daxil olun</div>
-
-          <div className="flex justify-center gap-4 mt-4">
-            <FcGoogle className="text-2xl cursor-pointer" />
-            <FaFacebookSquare className="text-blue-600 text-2xl cursor-pointer" />
-            <FaApple className="text-black text-2xl cursor-pointer" />
-          </div>
         </div>
       </div>
     </>
