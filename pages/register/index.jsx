@@ -28,6 +28,10 @@ export default function RegisterPage() {
 
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
+  // Azərbaycan telefon nömrəsi validasiyası
+  const isValidAzerbaijanPhoneNumber = (number) => /^\+994\d{9}$/.test(number);
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     let valid = true;
@@ -40,33 +44,36 @@ export default function RegisterPage() {
     };
 
     if (!email) {
-      newErrors.email = "Email is required!";
+      newErrors.email = "Email tələb olunur!";
       valid = false;
     } else if (!isValidEmail(email)) {
-      newErrors.email = "Invalid email format!";
+      newErrors.email = "Yanlış email formatı!";
       valid = false;
     }
 
     if (!firstName) {
-      newErrors.firstName = "First name is required!";
+      newErrors.firstName = "Ad tələb olunur!";
       valid = false;
     }
 
     if (!lastName) {
-      newErrors.lastName = "Last name is required!";
+      newErrors.lastName = "Soyad tələb olunur!";
       valid = false;
     }
 
     if (!phoneNumber) {
-      newErrors.phoneNumber = "Phone number is required!";
+      newErrors.phoneNumber = "Telefon nömrəsi tələb olunur!";
       valid = false;
+    } else if (!isValidAzerbaijanPhoneNumber(phoneNumber)) { // Yeni validasiya əlavəsi
+        newErrors.phoneNumber = "Telefon nömrəsi +994XXXXXXXXX formatında olmalıdır!";
+        valid = false;
     }
 
     if (!password) {
-      newErrors.password = "Password is required!";
+      newErrors.password = "Şifrə tələb olunur!";
       valid = false;
     } else if (password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters!";
+      newErrors.password = "Şifrə ən azı 6 simvol olmalıdır!";
       valid = false;
     }
 
@@ -90,21 +97,19 @@ export default function RegisterPage() {
         });
 
         if (response.status === 200 || response.status === 201) {
-          // Qeydiyyat uğurludur mesajı göstər
           Swal.fire({
             title: "Qeydiyyat uğurludur!",
             text: "Tezliklə sizin mobil nömrənizlə əlaqə saxlanacaq.",
             icon: "success",
             confirmButtonText: "OK",
           }).then(() => {
-            // İstəsən burda login səhifəsinə yönləndirə bilərsən:
-            router.push("/"); // əsas səhifəyə yönləndir
+            router.push("/");
           });
         } else {
-          throw new Error("Registration failed");
+          throw new Error("Qeydiyyat alınmadı.");
         }
       } catch (error) {
-        console.error("Registration error:", error);
+        console.error("Qeydiyyat xətası:", error);
         setMessage("Qeydiyyat zamanı xəta baş verdi.");
       }
     }
@@ -113,14 +118,12 @@ export default function RegisterPage() {
   return (
     <div className={`${DMSans.className} flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4`}>
       <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
-
-
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          {/* First Name */}
+          {/* Ad */}
           <div className={`p-3 flex justify-between rounded-md border-2 bg-[#E9ECF3] ${errors.firstName ? "border-red-500" : "border-transparent"}`}>
             <input
               type="text"
-              placeholder="First Name"
+              placeholder="Ad"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               className="bg-[#E9ECF3] outline-none w-full"
@@ -129,11 +132,11 @@ export default function RegisterPage() {
           </div>
           {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName}</p>}
 
-          {/* Last Name */}
+          {/* Soyad */}
           <div className={`p-3 flex justify-between rounded-md border-2 bg-[#E9ECF3] ${errors.lastName ? "border-red-500" : "border-transparent"}`}>
             <input
               type="text"
-              placeholder="Last Name"
+              placeholder="Soyad"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               className="bg-[#E9ECF3] outline-none w-full"
@@ -146,7 +149,7 @@ export default function RegisterPage() {
           <div className={`p-3 flex justify-between rounded-md border-2 bg-[#E9ECF3] ${errors.email ? "border-red-500" : "border-transparent"}`}>
             <input
               type="email"
-              placeholder="Email Address"
+              placeholder="Email Ünvanı"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="bg-[#E9ECF3] outline-none w-full"
@@ -155,11 +158,11 @@ export default function RegisterPage() {
           </div>
           {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
 
-          {/* Phone Number */}
+          {/* Telefon Nömrəsi */}
           <div className={`p-3 flex justify-between rounded-md border-2 bg-[#E9ECF3] ${errors.phoneNumber ? "border-red-500" : "border-transparent"}`}>
             <input
               type="text"
-              placeholder="Phone Number"
+              placeholder="Telefon Nömrəsi (+994XXXXXXXXX)"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               className="bg-[#E9ECF3] outline-none w-full"
@@ -168,11 +171,11 @@ export default function RegisterPage() {
           </div>
           {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber}</p>}
 
-          {/* Password */}
+          {/* Şifrə */}
           <div className={`p-3 flex justify-between rounded-md border-2 bg-[#E9ECF3] ${errors.password ? "border-red-500" : "border-transparent"}`}>
             <input
               type={showPwd ? "text" : "password"}
-              placeholder="Password"
+              placeholder="Şifrə"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="bg-[#E9ECF3] outline-none w-full"
@@ -186,7 +189,7 @@ export default function RegisterPage() {
           {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
 
           <button type="submit" className="bg-[#3DCBB1] text-white p-3 rounded-2xl mt-4 font-semibold hover:bg-[#35b2a4] transition">
-            Register
+            Qeydiyyatdan Keç
           </button>
 
           {message && <p className="text-center text-red-600 mt-2">{message}</p>}
