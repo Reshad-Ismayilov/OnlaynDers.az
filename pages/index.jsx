@@ -96,6 +96,8 @@ function HomePage() {
            
           </div>
 
+          <iframe src="https://player.vimeo.com/video/1092416878" ></iframe>
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className={`flex items-center gap-2 bg-gray-100 rounded-xl px-4 py-3 border ${errors.email ? 'border-red-500' : 'border-transparent'}`}>
               <Mail className="text-gray-400" />
