@@ -1,4 +1,4 @@
-// next-i18next.config.js
+// next-i18
 module.exports = {
     i18n: {
       defaultLocale: 'ru',
