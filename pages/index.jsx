@@ -25,6 +25,9 @@ import { Menu, X } from "lucide-react"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import { Autoplay } from "swiper/modules";
+
+
 
 
 
@@ -147,6 +150,7 @@ function HomePage() {
                 <div className="bg-yellow-500 rounded-sm"></div>
                 <div className="bg-green-500 rounded-sm"></div>
               </div>
+               <span className="block md:hidden font-semibold text-base text-black">Onlaynders.az</span>
 
               {/* Desktop Menu */}
               <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-black">
@@ -169,6 +173,7 @@ function HomePage() {
               Kurs al
             </button>
 
+
             {/* hamburger iconu */}
             <button
               className="md:hidden"
@@ -179,6 +184,7 @@ function HomePage() {
           </div>
 
           {/* Mobil menyuu hissə */}
+
           {menuOpen && (
             <div className="md:hidden bg-white shadow-md rounded px-4 py-4 space-y-3">
               <Link href="/" className="block text-black">{t("Ana səhifə")}</Link>
@@ -275,71 +281,81 @@ function HomePage() {
         </div>
 
 
-        {/* Mobil (carousel) */}
-        <div className="block md:hidden px-4">
-          <Swiper spaceBetween={8} slidesPerView={1}>
-            <SwiperSlide>
-              <div
-                className="text-white shadow-lg flex items-center pt-6 pr-5 pb-6 pl-5 mx-auto"
-                style={{
-                  width: "100%",
-                  maxWidth: "404px",
-                  height: "172px",
-                  backgroundImage: "url('/foto1.jpg')",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  borderTopLeftRadius: "4px",
-                  borderTopRightRadius: "50px",
-                  borderBottomRightRadius: "4px",
-                  borderBottomLeftRadius: "50px",
-                }}
-              >
-                Onlaynders.az platforması, kompüter və texnologiya üzrə ən son yenilikləri öyrənmək istəyənlər üçün
-                yaradılmış interaktiv bir tədris vasitəsidir.
-              </div>
-            </SwiperSlide>
+        {/* respansiv */}
+       
+<div className="block md:hidden px-4">
+  <Swiper
+    spaceBetween={8}
+    slidesPerView={1}
+    autoplay={{
+      delay: 2000, 
+      disableOnInteraction: false, 
+    }}
+    modules={[Autoplay]}
+  >
+    <SwiperSlide>
+      <div
+        className="text-white shadow-lg flex items-center pt-6 pr-5 pb-6 pl-5 mx-auto"
+        style={{
+          width: "100%",
+          maxWidth: "404px",
+          height: "172px",
+          backgroundImage: "url('/foto1.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          borderTopLeftRadius: "4px",
+          borderTopRightRadius: "50px",
+          borderBottomRightRadius: "4px",
+          borderBottomLeftRadius: "50px",
+        }}
+      >
+        Onlaynders.az platforması, kompüter və texnologiya üzrə ən son yenilikləri öyrənmək istəyənlər üçün
+        yaradılmış interaktiv bir tədris vasitəsidir.
+      </div>
+    </SwiperSlide>
 
-            <SwiperSlide>
-              <div
-                className="text-white shadow-lg flex items-center pt-6 pr-5 pb-6 pl-5 mx-auto"
-                style={{
-                  width: "100%",
-                  maxWidth: "404px",
-                  height: "172px",
-                  backgroundImage: "url('/foto2.jpg')",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  borderTopLeftRadius: "4px",
-                  borderTopRightRadius: "50px",
-                  borderBottomRightRadius: "4px",
-                  borderBottomLeftRadius: "50px",
-                }}
-              >
-                Yeni başlayanlar üçün anlaşıqlı və sadə dildə izahlar.
-              </div>
-            </SwiperSlide>
+    <SwiperSlide>
+      <div
+        className="text-white shadow-lg flex items-center pt-6 pr-5 pb-6 pl-5 mx-auto"
+        style={{
+          width: "100%",
+          maxWidth: "404px",
+          height: "172px",
+          backgroundImage: "url('/foto2.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          borderTopLeftRadius: "4px",
+          borderTopRightRadius: "50px",
+          borderBottomRightRadius: "4px",
+          borderBottomLeftRadius: "50px",
+        }}
+      >
+        Yeni başlayanlar üçün anlaşıqlı və sadə dildə izahlar.
+      </div>
+    </SwiperSlide>
 
-            <SwiperSlide>
-              <div
-                className="text-white shadow-lg flex items-center pt-6 pr-5 pb-6 pl-5 mx-auto"
-                style={{
-                  width: "100%",
-                  maxWidth: "404px",
-                  height: "172px",
-                  backgroundImage: "url('/foto3.jpg')",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  borderTopLeftRadius: "4px",
-                  borderTopRightRadius: "50px",
-                  borderBottomRightRadius: "4px",
-                  borderBottomLeftRadius: "50px",
-                }}
-              >
-                Kurslar, addım-addım izahla birlikdə videolar və ətraflı izahlarla təklif olunur.
-              </div>
-            </SwiperSlide>
-          </Swiper>
-        </div>
+    <SwiperSlide>
+      <div
+        className="text-white shadow-lg flex items-center pt-6 pr-5 pb-6 pl-5 mx-auto"
+        style={{
+          width: "100%",
+          maxWidth: "404px",
+          height: "172px",
+          backgroundImage: "url('/foto3.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          borderTopLeftRadius: "4px",
+          borderTopRightRadius: "50px",
+          borderBottomRightRadius: "4px",
+          borderBottomLeftRadius: "50px",
+        }}
+      >
+        Kurslar, addım-addım izahla birlikdə videolar və ətraflı izahlarla təklif olunur.
+      </div>
+    </SwiperSlide>
+    
+  </Swiper>
+</div>
 
       </div>
 
@@ -541,70 +557,49 @@ function HomePage() {
             <p className="text-lg font-bold">Sertifikat qazan</p>
           </div>
         </div>
-      </div>
+        <style>
 
-
-
-
-      <div className="w-full" style={{ backgroundColor: "#F8F8F8" }}>
-
-        <div className="hidden md:block py-20" style={{ width: "80%", margin: "100px auto" }}>
-          <div className="container mx-auto px-4">
+        </style>
+      </div >
+      <div className="vvv"  style={{ backgroundColor: "#EFEEEE" }}>
+        <div className=" hidden md:block bg-[#efeee] py-20" style={{
+          width: "80%",
+          margin: "100px auto",
+          gap:"10px"
+        }}>
+          <div className="container mx-auto px-4" >
             <h2 className="text-4xl font-medium text-center mb-12">Dərslər</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 justify-items-center">
-              {/* Kurs kartları */}
-              {/* Kart 1 */}
-              <div className="relative w-full max-w-xl p-6 bg-white rounded-2xl shadow-lg flex items-center">
-                {/* Şəkil kartdan kənara çıxır */}
-                <div
-                  className="absolute -left-16 top-1/2 transform -translate-y-1/2 bg-white rounded-xl shadow-md flex justify-center items-center"
-                  style={{ width: "165px", height: "165px" }}
-                >
-                  <img
-                    src="/foto11.png"
-                    alt="Kurs şəkli"
-                    className="w-[110px] h-[110px] object-cover rounded-lg"
-                  />
-                </div>
-
-                {/* Kartın əsas hissəsi */}
-                <div className="ml-[150px]">
-                  <span className="text-gray-500 text-sm">26 December 2019</span>
-                  <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
-                  <p className="text-gray-700 mb-4 max-w-[340px]">
-                    Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
-                  </p>
-                  <button
-                    className="px-8 py-2 rounded-full font-medium text-white"
+              {/* Kurs kartı 1 */}
+              <div className="flex bg-white rounded-2xl shadow-lg w-[200px] h-[140px] p-3 items-center relative overflow-visible">
+                {/* Şəkil hissəsi */}
+                <div className="relative flex-shrink-0" style={{ width: "140px", height: "140px" }}>
+                  <div
+                    className="bg-white rounded-2xl shadow-lg"
                     style={{
-                      background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
+                      width: "160px",
+                      height: "160px",
+                      position: "absolute",
+                      left: "-50px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      boxShadow: "0 8px 24px 0 rgba(39,123,233,0.15)"
                     }}
                   >
-                    Kursu al
-                  </button>
+                    <img
+                      src="/foto11.png"
+                      alt="Kurs şəkli"
+                      className="w-[190px] h-[190px] object-contain rounded-xl"
+                      style={{ boxShadow: "0 4px 16px 0 rgba(39,123,233,0.10)" }}
+
+                    />
+                  </div>
                 </div>
-              </div>
-
-
-              {/* Kart 2 */}
-              <div className="flex bg-white rounded-2xl shadow-lg w-[540px] h-[260px] p-6 items-center relative overflow-visible">
-
-                <div
-                  className="absolute left-[-50px] z-10 bg-white rounded-xl flex justify-center items-center shadow-[0px_4px_4px_0px_#0B58AD99]"
-                  style={{
-                    width: "165px",
-                    height: "165px",
-                  }}
-                >
-                  <img
-                    src="/foto12.png"
-                    alt="Kurs şəkli"
-                    className="w-[110px] h-[110px] object-contain rounded-lg"
-                  />
-                </div>
-
-                {/* Mətn sahəsi */}
-                <div className="ml-[100px]">
+            
+                <div>
                   <span className="text-gray-500 text-sm">26 December 2019</span>
                   <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
                   <p className="text-gray-700 mb-4">
@@ -620,25 +615,38 @@ function HomePage() {
                   </button>
                 </div>
               </div>
-              {/* Kart 3 */}
-              <div className="flex bg-white rounded-2xl shadow-lg w-[540px] h-[260px] p-6 items-center relative overflow-visible">
 
-                <div
-                  className="absolute left-[-50px] z-10 bg-white rounded-xl flex justify-center items-center shadow-[0px_4px_4px_0px_#0B58AD99]"
-                  style={{
-                    width: "165px",
-                    height: "165px",
-                  }}
-                >
-                  <img
-                    src="/foto13.png"
-                    alt="Kurs şəkli"
-                    className="w-[110px] h-[110px] object-contain rounded-lg"
-                  />
+
+              {/* Kurs kartı 2 */}
+              <div className="flex bg-white rounded-2xl shadow-lg w-[200px] h-[140px] p-3 items-center relative overflow-visible">
+                {/* Şəkil hissəsi */}
+                <div className="relative flex-shrink-0" style={{ width: "140px", height: "140px" }}>
+                  <div
+                    className="bg-white rounded-2xl shadow-lg"
+                    style={{
+                      width: "160px",
+                      height: "160px",
+                      position: "absolute",
+                      left: "-50px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      boxShadow: "0 8px 24px 0 rgba(39,123,233,0.15)"
+                    }}
+                  >
+                    <img
+                      src="/foto12.png"
+                      alt="Kurs şəkli"
+                      className="w-[190px] h-[190px] object-contain rounded-xl"
+                      style={{ boxShadow: "0 4px 16px 0 rgba(39,123,233,0.10)" }}
+                      
+                    />
+                  </div>
                 </div>
-
-                {/* Mətn sahəsi */}
-                <div className="ml-[100px]">
+               
+                <div>
                   <span className="text-gray-500 text-sm">26 December 2019</span>
                   <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
                   <p className="text-gray-700 mb-4">
@@ -654,25 +662,81 @@ function HomePage() {
                   </button>
                 </div>
               </div>
-              {/* Kart 4 */}
-              <div className="flex bg-white rounded-2xl shadow-lg w-[540px] h-[260px] p-6 items-center relative overflow-visible">
-
-                <div
-                  className="absolute left-[-50px] z-10 bg-white rounded-xl flex justify-center items-center shadow-[0px_4px_4px_0px_#0B58AD99]"
-                  style={{
-                    width: "165px",
-                    height: "165px",
-                  }}
-                >
-                  <img
-                    src="/foto15.jpg"
-                    alt="Kurs şəkli"
-                    className="w-[110px] h-[110px] object-contain rounded-lg"
-                  />
+              {/* Kurs kartı 3 */}
+             <div className="flex bg-white rounded-2xl shadow-lg w-[200px] h-[140px] p-3 items-center relative overflow-visible">
+              
+                <div className="relative flex-shrink-0" style={{ width: "140px", height: "140px" }}>
+                  <div
+                    className="bg-white rounded-2xl shadow-lg"
+                    style={{
+                      width: "160px",
+                      height: "160px",
+                      position: "absolute",
+                      left: "-50px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      boxShadow: "0 8px 24px 0 rgba(39,123,233,0.15)"
+                    }}
+                  >
+                    <img
+                      src="/foto13.png"
+                      alt="Kurs şəkli"
+                      className="w-[190px] h-[190px] object-contain rounded-xl"
+                      style={{ boxShadow: "0 4px 16px 0 rgba(39,123,233,0.10)" }}
+                      
+                    />
+                  </div>
                 </div>
-
-                {/* Mətn sahəsi */}
-                <div className="ml-[100px]">
+               
+                <div>
+                  <span className="text-gray-500 text-sm">26 December 2019</span>
+                  <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
+                  <p className="text-gray-700 mb-4">
+                    Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
+                  </p>
+                  <button
+                    className="hover:text-white px-8 py-2 rounded-full font-medium text-white"
+                    style={{
+                      background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
+                    }}
+                  >
+                    Kursu al
+                  </button>
+                </div>
+              </div>
+              {/* Kurs kartı 4 */}
+              <div className="flex bg-white rounded-2xl shadow-lg w-[200px] h-[140px] p-3 items-center relative overflow-visible">
+               
+                <div className="relative flex-shrink-0" style={{ width: "140px", height: "140px" }}>
+                  <div
+                    className="bg-white rounded-2xl shadow-lg"
+                    style={{
+                      width: "160px",
+                      height: "160px",
+                      position: "absolute",
+                      left: "-50px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      boxShadow: "0 8px 24px 0 rgba(39,123,233,0.15)"
+                    }}
+                  >
+                    <img
+                      src="/foto15.jpg"
+                      alt="Kurs şəkli"
+                      className="w-[190px] h-[190px] object-contain rounded-xl"
+                      style={{ boxShadow: "0 4px 16px 0 rgba(39,123,233,0.10)" }}
+                      
+                    />
+                  </div>
+                </div>
+               
+                <div>
                   <span className="text-gray-500 text-sm">26 December 2019</span>
                   <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
                   <p className="text-gray-700 mb-4">
@@ -692,176 +756,152 @@ function HomePage() {
           </div>
         </div>
 
-        {/* Mobil görünüş (karusel) */}
-        <div className="block md:hidden py-12 bg-[#F8F8F8]">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-medium text-center mb-8">Dərslər</h2>
-            <Slider
-              dots={true}
-              infinite={false}
-              speed={500}
-              slidesToShow={1}
-              slidesToScroll={1}
-            >
-              {/* Kart 1 */}
-              <div
-                className="flex flex-col sm:flex-row bg-white rounded-2xl shadow-lg w-full h-auto p-6 items-center justify-center relative overflow-visible"
-                style={{
-                  minHeight: "300px", width: "130px",
-                  height: "130px",
-                  boxShadow: "4px 6px 12px rgba(10, 58, 120, 0.87)",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <div
-                  className="rounded-xl p-2 sm:p-4 mb-4 sm:mb-0 sm:mr-8 flex-shrink-0 flex justify-center items-center"
-
-                >
-                  <img
-                    src="/foto11.png"
-                    alt="Kurs şəkli"
-                    className="w-[110px] h-[110px] object-contain rounded-lg"
-                  />
-                </div>
-
-                <div className="flex flex-col justify-center items-center flex-grow text-center">
-                  <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
-                  <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
-                  <p className="text-gray-700 mb-4">
-                    Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
-                  </p>
-                  <button
-                    className="hover:text-white px-8 py-2 rounded-full font-medium text-white"
-                    style={{
-                      background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
-                    }}
-                  >
-                    Kursu al
-                  </button>
-                </div>
-              </div>
 
 
 
-              {/* Kart 2 */}
-              <div className="flex flex-col sm:flex-row bg-white rounded-2xl shadow-lg w-full h-auto p-6 items-center justify-center relative overflow-visible" style={{
-                width: "130px",
-                height: "130px",
-                marginRight: "15px",
-                boxShadow: "4px 6px 12px rgba(10, 58, 120, 0.87)",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}>
-                <div
-                  className="rounded-xl p-2 sm:p-4 mb-4 sm:mb-0 sm:mr-8 flex-shrink-0"
 
-                >
-                  <img
-                    src="/foto12.png"
-                    alt="Kurs şəkli"
-                    className="w-[110px] h-[110px] object-contain rounded-lg mx-auto"
-                  />
-                </div>
-
-                <div className="flex flex-col justify-center items-center flex-grow text-center">
-                  <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
-                  <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
-                  <p className="text-gray-700 mb-4">
-                    Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
-                  </p>
-                  <button
-                    className="hover:text-white px-8 py-2 rounded-full font-medium text-white"
-                    style={{
-                      background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
-                    }}
-                  >
-                    Kursu al
-                  </button>
-                </div>
-
-
-              </div>
-
-              {/* Kart 3 */}
-              <div className="flex flex-col sm:flex-row bg-white rounded-2xl shadow-lg w-full h-auto p-6 items-center justify-center relative overflow-visible" style={{
-                width: "130px",
-                height: "130px",
-                boxShadow: "4px 6px 12px rgba(10, 58, 120, 0.87)",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}>
-                <div
-                  className="rounded-xl p-2 sm:p-4 mb-4 sm:mb-0 sm:mr-8 flex-shrink-0"
-
-                >
-                  <img
-                    src="/foto13.png"
-                    alt="Kurs şəkli"
-                    className="w-[110px] h-[110px] object-contain rounded-lg mx-auto"
-                  />
-                </div>
-                <div className="flex flex-col justify-center items-center flex-grow text-center">
-                  <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
-                  <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
-                  <p className="text-gray-700 mb-4">
-                    Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
-                  </p>
-                  <button
-                    className="hover:text-white px-8 py-2 rounded-full font-medium text-white"
-                    style={{
-                      background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
-                    }}
-                  >
-                    Kursu al
-                  </button>
-                </div>
-
-              </div>
-
-              {/* Kart 4 */}
-              <div className="flex flex-col sm:flex-row bg-white rounded-2xl shadow-lg w-full h-auto p-6 items-center justify-center relative overflow-visible" style={{
-                width: "130px",
-                height: "130px",
-                boxShadow: "4px 6px 12px rgba(10, 58, 120, 0.87)",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}>
-                <div
-                  className="rounded-xl p-2 sm:p-4 mb-4 sm:mb-0 sm:mr-8 flex-shrink-0"
-
-                >
-                  <img
-                    src="/foto15.jpg"
-                    alt="Kurs şəkli"
-                    className="w-[110px] h-[110px] object-contain rounded-lg mx-auto"
-                  />
-                </div>
-
-                <div className="flex flex-col justify-center items-center flex-grow text-center">
-                  <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
-                  <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
-                  <p className="text-gray-700 mb-4">
-                    Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
-                  </p>
-                  <button
-                    className="hover:text-white px-8 py-2 rounded-full font-medium text-white"
-                    style={{
-                      background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
-                    }}
-                  >
-                    Kursu al
-                  </button>
-                </div>
-
-              </div>
-            </Slider>
-          </div>
+        {/* respansiv (karusel) */}
+<div className="block md:hidden py-12 bg-[#F8F8F8]">
+  <div className="container mx-auto px-4">
+    <h2 className="text-3xl font-medium text-center mb-8">Dərslər</h2>
+    <Slider
+      dots={true}
+      infinite={false}
+      speed={500}
+      slidesToShow={1}
+      slidesToScroll={1}
+    >
+      {/* Kart 1 */}
+      <div
+        className="flex flex-col bg-white shadow-lg w-full max-w-[340px] h-[340px] p-6 items-center justify-center relative overflow-visible mx-auto"
+        style={{
+          borderRadius: "0px", 
+        }}
+      >
+        <div className="p-0 mb-4 flex-shrink-0 flex justify-center items-center w-[110px] h-[110px]">
+          <img
+            src="/foto11.png"
+            alt="Kurs şəkli"
+            className="w-[110px] h-[110px] object-contain"
+            style={{ borderRadius: "0px" }}
+          />
         </div>
+        <div className="flex flex-col justify-center items-center flex-grow text-center">
+          <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
+          <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
+          <p className="text-gray-700 mb-4">
+            Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
+          </p>
+          <button
+            className="hover:text-white px-8 py-2 rounded-none font-medium text-white"
+            style={{
+              background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
+            }}
+          >
+            Kursu al
+          </button>
+        </div>
+      </div>
+
+      {/* Kart 2 */}
+      <div
+        className="flex flex-col bg-white shadow-lg w-full max-w-[340px] h-[340px] p-6 items-center justify-center relative overflow-visible mx-auto"
+        style={{
+          borderRadius: "0px",
+        }}
+      >
+        <div className="p-0 mb-4 flex-shrink-0 flex justify-center items-center w-[110px] h-[110px]">
+          <img
+            src="/foto12.png"
+            alt="Kurs şəkli"
+            className="w-[110px] h-[110px] object-contain"
+            style={{ borderRadius: "0px" }}
+          />
+        </div>
+        <div className="flex flex-col justify-center items-center flex-grow text-center">
+          <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
+          <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
+          <p className="text-gray-700 mb-4">
+            Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
+          </p>
+          <button
+            className="hover:text-white px-8 py-2 rounded-none font-medium text-white"
+            style={{
+              background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
+            }}
+          >
+            Kursu al
+          </button>
+        </div>
+      </div>
+
+      {/* Kart 3 */}
+      <div
+        className="flex flex-col bg-white shadow-lg w-full max-w-[340px] h-[340px] p-6 items-center justify-center relative overflow-visible mx-auto"
+        style={{
+          borderRadius: "0px",
+        }}
+      >
+        <div className="p-0 mb-4 flex-shrink-0 flex justify-center items-center w-[110px] h-[110px]">
+          <img
+            src="/foto13.png"
+            alt="Kurs şəkli"
+            className="w-[110px] h-[110px] object-contain"
+            style={{ borderRadius: "0px" }}
+          />
+        </div>
+        <div className="flex flex-col justify-center items-center flex-grow text-center">
+          <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
+          <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
+          <p className="text-gray-700 mb-4">
+            Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
+          </p>
+          <button
+            className="hover:text-white px-8 py-2 rounded-none font-medium text-white"
+            style={{
+              background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
+            }}
+          >
+            Kursu al
+          </button>
+        </div>
+      </div>
+
+      {/* Kart 4 */}
+     <div
+        className="flex flex-col bg-white shadow-lg w-full max-w-[340px] h-[340px] p-6 items-center justify-center relative overflow-visible mx-auto"
+        style={{
+          borderRadius: "0px", 
+        }}
+      >
+        <div className="p-0 mb-4 flex-shrink-0 flex justify-center items-center w-[110px] h-[110px]">
+          <img
+            src="/foto15.png"
+            alt="Kurs şəkli"
+            className="w-[110px] h-[110px] object-contain"
+            style={{ borderRadius: "0px" }}
+          />
+        </div>
+        <div className="flex flex-col justify-center items-center flex-grow text-center">
+          <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
+          <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
+          <p className="text-gray-700 mb-4">
+            Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
+          </p>
+          <button
+            className="hover:text-white px-8 py-2 rounded-none font-medium text-white"
+            style={{
+              background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
+            }}
+          >
+            Kursu al
+          </button>
+        </div>
+      </div>
+    </Slider>
+  </div>
+</div>
+
 
       </div>
 
@@ -878,7 +918,7 @@ function HomePage() {
           <h2 className="text-4xl font-medium text-gray-900">Təlimçi</h2>
         </div>
 
-        {/* Məzmun */}
+        {/* text */}
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-10">
 
           {/* Sol tərəf - Yazılar */}
@@ -894,7 +934,7 @@ function HomePage() {
             </p>
           </div>
 
-          {/* Sağ tərəf - Şəkil */}
+          {/* Şəkil */}
           <div className="md:w-1/2 flex justify-center">
             <div
               className="w-[150px] h-[100px] shadow-xl relative"
@@ -1016,11 +1056,11 @@ function HomePage() {
       </div>
 
 
-      {/* Footer bölməsi */}
-      <footer className="w-full mt-20 py-8" style={{ backgroundColor: '##f1f1f1', marginTop: "50px" }}>
+      {/* Footer */}
+      <footer className="w-full mt-20 py-8" style={{ backgroundColor: '#f1f1f1', marginTop: "50px" }}>
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Logo və təsvir */}
+            {/* Logo */}
             <div className="space-y-4 flex flex-col">
               <div className="flex items-center space-x-2">
                 <div className="grid grid-cols-2 gap-1 w-8 h-8">
@@ -1035,7 +1075,7 @@ function HomePage() {
                 Lorem ipsum dolor sit amet consectetur. Varius enim eu ac tempus integer. In urna eget tortor morbi odio sed et tincidunt.
               </p>
             </div>
-            {/* Navigasiya linkləri */}
+
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-gray-800">Ana səhifə</h3>
               <nav className="flex flex-col space-y-3">
@@ -1045,7 +1085,7 @@ function HomePage() {
                 <a href="#" className="text-black hover:text-gray-800 transition-colors">Təlimçi</a>
               </nav>
             </div>
-            {/* Əlaqə məlumatları */}
+
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-gray-800">Əlaqə məlumatları</h3>
               <p className="text-gray-600 text-sm">Hər hansı sualınız varsa bizimlə əlaqə saxlayın</p>
@@ -1063,7 +1103,7 @@ function HomePage() {
                   <span className="text-black">Bakı, Azərbaycan</span>
                 </div>
 
-                {/* Sosial ikonlar – DAXİLƏ EDİLİB */}
+                {/* ikonlar */}
                 <div className="flex flex-wrap gap-4 pt-2">
                   <IoLogoWhatsapp fontSize={24} className="text-black hover:text-green-500 transition-colors" />
                   <FaSquareInstagram fontSize={24} className="text-black hover:text-pink-500 transition-colors" />
@@ -1075,8 +1115,6 @@ function HomePage() {
 
             </div>
           </div>
-          {/* Sosial ikonlar */}
-
         </div>
       </footer>
 
