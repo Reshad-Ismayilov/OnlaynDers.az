@@ -14,7 +14,6 @@ import { BsLinkedin } from "react-icons/bs"
 import { FaFacebookSquare, FaRegPlayCircle } from "react-icons/fa"
 import { FaYoutube } from "react-icons/fa6"
 import Image from "next/image"
-import { Phone, Mail, MapPin } from "lucide-react"
 import { RiMoneyDollarCircleLine } from "react-icons/ri"
 import { PiCertificate } from "react-icons/pi"
 import { PiExamLight } from "react-icons/pi"
@@ -22,18 +21,10 @@ import { FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa"
 import { Swiper, SwiperSlide } from "swiper/react"
 import "swiper/css"
 import { Menu, X } from "lucide-react"
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
-import { Autoplay } from "swiper/modules";
-
-
-
-
-
-
-
-
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
+import Slider from "react-slick"
+import { Autoplay } from "swiper/modules"
 
 const DMSans = DM_Sans({ subsets: ["latin"] })
 
@@ -46,6 +37,43 @@ function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false)
   const router = useRouter()
   const { handleLogin } = useAuth()
+
+  // Roadmap animation states
+  const [openStep, setOpenStep] = useState([true, true, true, true])
+  const [currentStep, setCurrentStep] = useState(0)
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+
+  const handleToggle = (idx) => {
+    setOpenStep((prev) => prev.map((v, i) => (i === idx ? !v : v)))
+    // Pause auto-play when user manually interacts
+    setIsAutoPlaying(false)
+    setTimeout(() => setIsAutoPlaying(true), 5000) // Resume after 5 seconds
+  }
+
+  // Auto-play animation effect
+  useEffect(() => {
+    if (!isAutoPlaying) return
+
+    const interval = setInterval(() => {
+      setCurrentStep((prev) => {
+        const nextStep = (prev + 1) % 4
+
+        // Close current step and open next step
+        setOpenStep((prevSteps) => {
+          const newSteps = [...prevSteps]
+          // Close all steps first
+          newSteps.fill(false)
+          // Open the next step
+          newSteps[nextStep] = true
+          return newSteps
+        })
+
+        return nextStep
+      })
+    }, 2000) // Change every 2 seconds
+
+    return () => clearInterval(interval)
+  }, [isAutoPlaying])
 
   // Contact form state
   const [contactFormData, setContactFormData] = useState({
@@ -84,7 +112,6 @@ function HomePage() {
       valid = false
     }
 
-
     setErrors(newErrors)
 
     if (valid) {
@@ -100,6 +127,7 @@ function HomePage() {
         })
 
         const data = await response.json()
+
         if (response.ok) {
           handleLogin(data.accessToken, data.token, "sanan")
           router.push("/dashboard")
@@ -129,10 +157,8 @@ function HomePage() {
     // Burada form məlumatlarını göndərmək üçün API çağırışı edə bilərsiniz
   }
 
-
   return (
     <>
-
       <Head>
         <title>Online Dərs - Girişə</title>
         <meta name="description" content="Online dərs platforması" />
@@ -140,58 +166,62 @@ function HomePage() {
 
       <div className="buter">
         <div className="mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-4 bg-white shadow-sm relative">
-            {/* Logo */}
-            <div className="flex items-center justify-start gap-6">
-
-              <div className="w-5 h-5 grid grid-cols-2 gap-0.5">
-                <div className="bg-blue-500 rounded-sm"></div>
-                <div className="bg-red-500 rounded-sm"></div>
-                <div className="bg-yellow-500 rounded-sm"></div>
-                <div className="bg-green-500 rounded-sm"></div>
-              </div>
-               <span className="block md:hidden font-semibold text-base text-black">Onlaynders.az</span>
-
-              {/* Desktop Menu */}
-              <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-black">
-                <Link href="/">{t("Ana səhifə")}</Link>
-                <Link href="/about">{t("Haqqımızda")}</Link>
-                <Link href="/courses">{t("Dərslər")}</Link>
-                <Link href="/trainer">{t("Təlimçi")}</Link>
-                <Link href="/contact">{t("Əlaqə")}</Link>
-              </nav>
-            </div>
-
-
-
-            <button
-              className="hidden md:block hover:text-white px-8 py-2 rounded-full font-medium text-white"
-              style={{
-                background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
-              }}
-            >
-              Kurs al
-            </button>
-
-
-            {/* hamburger iconu */}
-            <button
-              className="md:hidden"
-              onClick={() => setMenuOpen(!menuOpen)}
-            >
-              {menuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+         <div className="bg-white shadow-sm relative py-4">
+      <div className="container mx-auto px-6 max-w-screen-2xl flex items-center justify-between">
+        {/* Logo və menyu */}
+        <div className="flex items-center justify-start gap-6">
+          <div className="w-5 h-5 grid grid-cols-2 gap-0.5">
+            <div className="bg-blue-500 rounded-sm"></div>
+            <div className="bg-red-500 rounded-sm"></div>
+            <div className="bg-yellow-500 rounded-sm"></div>
+            <div className="bg-green-500 rounded-sm"></div>
           </div>
+          <span className="block md:hidden font-semibold text-base text-black">Onlaynders.az</span>
+          {/* Desktop Menu */}
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-black">
+            <Link href="/">{t("Ana səhifə")}</Link>
+            <Link href="/about">{t("Haqqımızda")}</Link>
+            <Link href="/courses">{t("Dərslər")}</Link>
+            <Link href="/trainer">{t("Təlimçi")}</Link>
+            <Link href="/contact">{t("Əlaqə")}</Link>
+          </nav>
+        </div>
+
+        {/* Desktop button */}
+        <button
+          className="hidden md:block hover:text-white px-8 py-2 rounded-full font-medium text-white"
+          style={{
+            background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
+          }}
+        >
+          Kurs al
+        </button>
+
+        {/* Mobil hamburger icon */}
+        <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+    </div>
 
           {/* Mobil menyuu hissə */}
-
           {menuOpen && (
             <div className="md:hidden bg-white shadow-md rounded px-4 py-4 space-y-3">
-              <Link href="/" className="block text-black">{t("Ana səhifə")}</Link>
-              <Link href="/about" className="block text-black">{t("Haqqımızda")}</Link>
-              <Link href="/courses" className="block text-black">{t("Dərslər")}</Link>
-              <Link href="/trainer" className="block text-black">{t("Təlimçi")}</Link>
-              <Link href="/contact" className="block text-black">{t("Əlaqə")}</Link>
+              <Link href="/" className="block text-black">
+                {t("Ana səhifə")}
+              </Link>
+              <Link href="/about" className="block text-black">
+                {t("Haqqımızda")}
+              </Link>
+              <Link href="/courses" className="block text-black">
+                {t("Dərslər")}
+              </Link>
+              <Link href="/trainer" className="block text-black">
+                {t("Təlimçi")}
+              </Link>
+              <Link href="/contact" className="block text-black">
+                {t("Əlaqə")}
+              </Link>
               <button
                 className="hidden md: w-70 mt-2 hover:text-white px-4 py-2  font-medium text-white"
                 style={{
@@ -205,13 +235,9 @@ function HomePage() {
         </div>
       </div>
 
-
-
       <div className="mx-auto px-4 py-16 text-center">
         <h1 className="text-4xl font-medium mb-2">Onlaynders.az</h1>
-        <h2 className="text-4xl font-medium text-black-700 mb-6">
-          İnteraktiv Kompüter Dərsləri Platforması
-        </h2>
+        <h2 className="text-4xl font-medium text-black-700 mb-6">İnteraktiv Kompüter Dərsləri Platforması</h2>
         <p className="subtitle text-gray-500 mb-12">
           Zamandan və məkandan asılı olmadan, öz sürətinlə ən son kompüter biliklərini öyrən!
         </p>
@@ -224,9 +250,10 @@ function HomePage() {
           <FaYoutube fontSize={30} />
         </div>
 
-
-
-        <div className="hidden md:flex flex-wrap gap-[20px] justify-center px-4 md:px-8 pt-6 pr-5 pb-6 pl-5" style={{ gap: "25px" }}>
+        <div
+          className="hidden md:flex flex-wrap gap-[20px] justify-center px-4 md:px-8 pt-6 pr-5 pb-6 pl-5"
+          style={{ gap: "25px" }}
+        >
           <div
             className="text-white shadow-lg flex items-center overflow-hidden"
             style={{
@@ -280,85 +307,80 @@ function HomePage() {
           </div>
         </div>
 
-
         {/* respansiv */}
-       
-<div className="block md:hidden px-4">
-  <Swiper
-    spaceBetween={8}
-    slidesPerView={1}
-    autoplay={{
-      delay: 2000, 
-      disableOnInteraction: false, 
-    }}
-    modules={[Autoplay]}
-  >
-    <SwiperSlide>
-      <div
-        className="text-white shadow-lg flex items-center pt-6 pr-5 pb-6 pl-5 mx-auto"
-        style={{
-          width: "100%",
-          maxWidth: "404px",
-          height: "172px",
-          backgroundImage: "url('/foto1.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          borderTopLeftRadius: "4px",
-          borderTopRightRadius: "50px",
-          borderBottomRightRadius: "4px",
-          borderBottomLeftRadius: "50px",
-        }}
-      >
-        Onlaynders.az platforması, kompüter və texnologiya üzrə ən son yenilikləri öyrənmək istəyənlər üçün
-        yaradılmış interaktiv bir tədris vasitəsidir.
-      </div>
-    </SwiperSlide>
+        <div className="block md:hidden px-4">
+          <Swiper
+            spaceBetween={8}
+            slidesPerView={1}
+            autoplay={{
+              delay: 2000,
+              disableOnInteraction: false,
+            }}
+            modules={[Autoplay]}
+          >
+            <SwiperSlide>
+              <div
+                className="text-white shadow-lg flex items-center pt-6 pr-5 pb-6 pl-5 mx-auto"
+                style={{
+                  width: "100%",
+                  maxWidth: "404px",
+                  height: "172px",
+                  backgroundImage: "url('/foto1.jpg')",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  borderTopLeftRadius: "4px",
+                  borderTopRightRadius: "50px",
+                  borderBottomRightRadius: "4px",
+                  borderBottomLeftRadius: "50px",
+                }}
+              >
+                Onlaynders.az platforması, kompüter və texnologiya üzrə ən son yenilikləri öyrənmək istəyənlər üçün
+                yaradılmış interaktiv bir tədris vasitəsidir.
+              </div>
+            </SwiperSlide>
 
-    <SwiperSlide>
-      <div
-        className="text-white shadow-lg flex items-center pt-6 pr-5 pb-6 pl-5 mx-auto"
-        style={{
-          width: "100%",
-          maxWidth: "404px",
-          height: "172px",
-          backgroundImage: "url('/foto2.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          borderTopLeftRadius: "4px",
-          borderTopRightRadius: "50px",
-          borderBottomRightRadius: "4px",
-          borderBottomLeftRadius: "50px",
-        }}
-      >
-        Yeni başlayanlar üçün anlaşıqlı və sadə dildə izahlar.
-      </div>
-    </SwiperSlide>
+            <SwiperSlide>
+              <div
+                className="text-white shadow-lg flex items-center pt-6 pr-5 pb-6 pl-5 mx-auto"
+                style={{
+                  width: "100%",
+                  maxWidth: "404px",
+                  height: "172px",
+                  backgroundImage: "url('/foto2.jpg')",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  borderTopLeftRadius: "4px",
+                  borderTopRightRadius: "50px",
+                  borderBottomRightRadius: "4px",
+                  borderBottomLeftRadius: "50px",
+                }}
+              >
+                Yeni başlayanlar üçün anlaşıqlı və sadə dildə izahlar.
+              </div>
+            </SwiperSlide>
 
-    <SwiperSlide>
-      <div
-        className="text-white shadow-lg flex items-center pt-6 pr-5 pb-6 pl-5 mx-auto"
-        style={{
-          width: "100%",
-          maxWidth: "404px",
-          height: "172px",
-          backgroundImage: "url('/foto3.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          borderTopLeftRadius: "4px",
-          borderTopRightRadius: "50px",
-          borderBottomRightRadius: "4px",
-          borderBottomLeftRadius: "50px",
-        }}
-      >
-        Kurslar, addım-addım izahla birlikdə videolar və ətraflı izahlarla təklif olunur.
+            <SwiperSlide>
+              <div
+                className="text-white shadow-lg flex items-center pt-6 pr-5 pb-6 pl-5 mx-auto"
+                style={{
+                  width: "100%",
+                  maxWidth: "404px",
+                  height: "172px",
+                  backgroundImage: "url('/foto3.jpg')",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  borderTopLeftRadius: "4px",
+                  borderTopRightRadius: "50px",
+                  borderBottomRightRadius: "4px",
+                  borderBottomLeftRadius: "50px",
+                }}
+              >
+                Kurslar, addım-addım izahla birlikdə videolar və ətraflı izahlarla təklif olunur.
+              </div>
+            </SwiperSlide>
+          </Swiper>
+        </div>
       </div>
-    </SwiperSlide>
-    
-  </Swiper>
-</div>
-
-      </div>
-
 
       <div className="butere">
         <div className="max-w-10xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
@@ -388,6 +410,7 @@ function HomePage() {
                     </p>
                   </li>
                 </ul>
+
                 <div>
                   {/* Button */}
                   <button
@@ -400,6 +423,7 @@ function HomePage() {
                   </button>
                 </div>
               </div>
+
               <div className="md:w-1/2">
                 <div className="relative h-full w-full">
                   <div className="flex items-center justify-center p-8">
@@ -423,155 +447,239 @@ function HomePage() {
         </div>
       </div>
 
-      <h1 className="text-center text-3xl font-semibold mb-20">Yol Xəritəniz</h1>
+      {/* Auto-Playing Yol Xəritəsi */}
+      <div className="w-full py-20">
+        <h1 className="text-center text-3xl font-semibold mb-20">Yol Xəritəniz</h1>
 
-
-      <div
-        className="flex"
-        style={{ width: "80%", margin: "210px auto", minWidth: "407px" }}
-      >
-        {/* 1 */}
-        <div
-          className="bg-blue-500 flex justify-center relative"
-          style={{ width: "300px", height: "60px", alignItems: "center" }}
-        >
-          <div
-            className="absolute bg-blue-500"
-            style={{ width: "3px", height: "90px", top: "-90px" }}
-          ></div>
-          <div
-            className="bg-blue-500 absolute flex justify-center"
-            style={{
-              borderRadius: "50%",
-              width: "60px",
-              height: "60px",
-              bottom: "150px",
-              alignItems: "center",
-              color: "#fff",
-            }}
+        {/* Auto-play control */}
+        <div className="text-center mb-8">
+          <button
+            onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+            className="px-6 py-2 rounded-full text-sm font-medium transition-colors"
+            
           >
-            <RiMoneyDollarCircleLine style={{ width: "40px", height: "40px" }} />
-          </div>
-          <div
-            className="bg-white"
-            style={{ width: "20px", height: "20px", borderRadius: "50%" }}
-          ></div>
-          <div className="absolute" style={{ bottom: "-70px", color: "blue" }}>
-            <p className="text-3xl font-bold text-center">1</p>
-            <p className="text-lg font-bold">Kursu al</p>
-          </div>
+            
+          </button>
         </div>
 
-        {/* 2 */}
         <div
-          className="bg-green-500 flex justify-center relative"
-          style={{ width: "300px", height: "60px", alignItems: "center" }}
+          className="flex justify-center items-center"
+          style={{ width: "80%", margin: "210px auto", minWidth: "407px" }}
+          onMouseEnter={() => setIsAutoPlaying(false)}
+          onMouseLeave={() => setIsAutoPlaying(true)}
         >
+          {/* Step 1 */}
           <div
-            className="absolute bg-green-500"
-            style={{ width: "3px", height: "90px", bottom: "-90px" }}
-          ></div>
-          <div
-            className="bg-green-500 absolute flex justify-center"
-            style={{
-              borderRadius: "50%",
-              width: "60px",
-              height: "60px",
-              top: "150px",
-              alignItems: "center",
-              color: "#fff",
-            }}
+            className="bg-blue-500 flex justify-center relative"
+            style={{ width: "300px", height: "60px", alignItems: "center" }}
           >
-            <FaRegPlayCircle style={{ width: "40px", height: "40px" }} />
+            <div className="absolute bg-blue-500" style={{ width: "3px", height: "90px", top: "-90px" }}></div>
+            <div
+              className="bg-blue-500 absolute flex justify-center cursor-pointer"
+              style={{
+                borderRadius: "50%",
+                width: "60px",
+                height: "60px",
+                bottom: "150px",
+                alignItems: "center",
+                color: "#fff",
+                transition: "all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+                transform: openStep[0] ? "scale(1) rotate(0deg)" : "scale(0.3) rotate(180deg)",
+                opacity: openStep[0] ? 1 : 0.3,
+                boxShadow: openStep[0] ? "0 8px 25px rgba(10, 76, 165, 0.4)" : "0 2px 8px rgba(10, 76, 165, 0.2)",
+              }}
+              onClick={() => handleToggle(0)}
+              onMouseEnter={(e) => {
+                if (openStep[0]) {
+                  e.currentTarget.style.transform = "scale(1.1) rotate(0deg)"
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (openStep[0]) {
+                  e.currentTarget.style.transform = "scale(1) rotate(0deg)"
+                }
+              }}
+            >
+              <RiMoneyDollarCircleLine style={{ width: "40px", height: "40px" }} />
+            </div>
+            <div className="bg-white" style={{ width: "20px", height: "20px", borderRadius: "50%" }}></div>
+            <div
+              className="absolute transition-all duration-700"
+              style={{
+                bottom: "-70px",
+                color: "blue",
+                transform: openStep[0] ? "translateY(0) scale(1)" : "translateY(10px) scale(0.8)",
+                opacity: openStep[0] ? 1 : 0.5,
+              }}
+            >
+              <p className="text-3xl font-bold text-center">1</p>
+              <p className="text-lg font-bold">Kursu al</p>
+            </div>
           </div>
+
+          {/* Step 2 */}
           <div
-            className="bg-white"
-            style={{ width: "20px", height: "20px", borderRadius: "50%" }}
-          ></div>
-          <div className="absolute" style={{ top: "-70px", color: "green" }}>
-            <p className="text-3xl font-bold text-center">2</p>
-            <p className="text-lg font-bold">Dərsləri izlə</p>
+            className="bg-green-500 flex justify-center relative"
+            style={{ width: "300px", height: "60px", alignItems: "center" }}
+          >
+            <div className="absolute bg-green-500" style={{ width: "3px", height: "90px", bottom: "-90px" }}></div>
+            <div
+              className="bg-green-500 absolute flex justify-center cursor-pointer"
+              style={{
+                borderRadius: "50%",
+                width: "60px",
+                height: "60px",
+                top: "150px",
+                alignItems: "center",
+                color: "#fff",
+                transition: "all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+                transform: openStep[1] ? "scale(1) rotate(0deg)" : "scale(0.3) rotate(180deg)",
+                opacity: openStep[1] ? 1 : 0.3,
+                boxShadow: openStep[1] ? "0 8px 25px rgba(34, 197, 94, 0.4)" : "0 2px 8px rgba(34, 197, 94, 0.2)",
+              }}
+              onClick={() => handleToggle(1)}
+              onMouseEnter={(e) => {
+                if (openStep[1]) {
+                  e.currentTarget.style.transform = "scale(1.1) rotate(0deg)"
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (openStep[1]) {
+                  e.currentTarget.style.transform = "scale(1) rotate(0deg)"
+                }
+              }}
+            >
+              <FaRegPlayCircle style={{ width: "40px", height: "40px" }} />
+            </div>
+            <div className="bg-white" style={{ width: "20px", height: "20px", borderRadius: "50%" }}></div>
+            <div
+              className="absolute transition-all duration-700"
+              style={{
+                top: "-70px",
+                color: "green",
+                transform: openStep[1] ? "translateY(0) scale(1)" : "translateY(-10px) scale(0.8)",
+                opacity: openStep[1] ? 1 : 0.5,
+              }}
+            >
+              <p className="text-3xl font-bold text-center">2</p>
+              <p className="text-lg font-bold">Dərsləri izlə</p>
+            </div>
+          </div>
+
+          {/* Step 3 */}
+          <div
+            className="bg-yellow-500 flex justify-center relative"
+            style={{ width: "300px", height: "60px", alignItems: "center" }}
+          >
+            <div className="absolute bg-yellow-500" style={{ width: "3px", height: "90px", top: "-90px" }}></div>
+            <div
+              className="bg-yellow-500 absolute flex justify-center cursor-pointer"
+              style={{
+                borderRadius: "50%",
+                width: "60px",
+                height: "60px",
+                bottom: "150px",
+                alignItems: "center",
+                color: "#fff",
+                transition: "all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+                transform: openStep[2] ? "scale(1) rotate(0deg)" : "scale(0.3) rotate(180deg)",
+                opacity: openStep[2] ? 1 : 0.3,
+                boxShadow: openStep[2] ? "0 8px 25px rgba(234, 179, 8, 0.4)" : "0 2px 8px rgba(234, 179, 8, 0.2)",
+              }}
+              onClick={() => handleToggle(2)}
+              onMouseEnter={(e) => {
+                if (openStep[2]) {
+                  e.currentTarget.style.transform = "scale(1.1) rotate(0deg)"
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (openStep[2]) {
+                  e.currentTarget.style.transform = "scale(1) rotate(0deg)"
+                }
+              }}
+            >
+              <PiExamLight style={{ width: "40px", height: "40px" }} />
+            </div>
+            <div className="bg-white" style={{ width: "20px", height: "20px", borderRadius: "50%" }}></div>
+            <div
+              className="absolute transition-all duration-700"
+              style={{
+                bottom: "-70px",
+                color: "orange",
+                transform: openStep[2] ? "translateY(0) scale(1)" : "translateY(10px) scale(0.8)",
+                opacity: openStep[2] ? 1 : 0.5,
+              }}
+            >
+              <p className="text-3xl font-bold text-center">3</p>
+              <p className="text-lg font-bold">İmtahan ver</p>
+            </div>
+          </div>
+
+          {/* Step 4 */}
+          <div
+            className="bg-red-500 flex justify-center relative"
+            style={{ width: "300px", height: "60px", alignItems: "center" }}
+          >
+            <div className="absolute bg-red-500" style={{ width: "3px", height: "90px", bottom: "-90px" }}></div>
+            <div
+              className="bg-red-500 absolute flex justify-center cursor-pointer"
+              style={{
+                borderRadius: "50%",
+                width: "60px",
+                height: "60px",
+                top: "150px",
+                alignItems: "center",
+                color: "#fff",
+                transition: "all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+                transform: openStep[3] ? "scale(1) rotate(0deg)" : "scale(0.3) rotate(180deg)",
+                opacity: openStep[3] ? 1 : 0.3,
+                boxShadow: openStep[3] ? "0 8px 25px rgba(239, 68, 68, 0.4)" : "0 2px 8px rgba(239, 68, 68, 0.2)",
+              }}
+              onClick={() => handleToggle(3)}
+              onMouseEnter={(e) => {
+                if (openStep[3]) {
+                  e.currentTarget.style.transform = "scale(1.1) rotate(0deg)"
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (openStep[3]) {
+                  e.currentTarget.style.transform = "scale(1) rotate(0deg)"
+                }
+              }}
+            >
+              <PiCertificate style={{ width: "40px", height: "40px" }} />
+            </div>
+            <div className="bg-white" style={{ width: "20px", height: "20px", borderRadius: "50%" }}></div>
+            <div
+              className="absolute transition-all duration-700"
+              style={{
+                top: "-70px",
+                color: "red",
+                transform: openStep[3] ? "translateY(0) scale(1)" : "translateY(-10px) scale(0.8)",
+                opacity: openStep[3] ? 1 : 0.5,
+              }}
+            >
+              <p className="text-3xl font-bold text-center">4</p>
+              <p className="text-lg font-bold">Sertifikat qazan</p>
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* 3 */}
+      <div className="vvv" style={{ backgroundColor: "#f1f1f1" }}>
         <div
-          className="bg-yellow-500 flex justify-center relative"
-          style={{ width: "300px", height: "60px", alignItems: "center" }}
+          className=" hidden md:block bg-[#efeee] py-20"
+          style={{
+            width: "80%",
+            margin: "100px auto",
+            gap: "10px",
+          }}
         >
-          <div
-            className="absolute bg-yellow-500"
-            style={{ width: "3px", height: "90px", top: "-90px" }}
-          ></div>
-          <div
-            className="bg-yellow-500 absolute flex justify-center"
-            style={{
-              borderRadius: "50%",
-              width: "60px",
-              height: "60px",
-              bottom: "150px",
-              alignItems: "center",
-              color: "#fff",
-            }}
-          >
-            <PiExamLight style={{ width: "40px", height: "40px" }} />
-          </div>
-          <div
-            className="bg-white"
-            style={{ width: "20px", height: "20px", borderRadius: "50%" }}
-          ></div>
-          <div className="absolute" style={{ bottom: "-70px", color: "orange" }}>
-            <p className="text-3xl font-bold text-center">3</p>
-            <p className="text-lg font-bold">İmtahan ver</p>
-          </div>
-        </div>
-
-        {/* 4 */}
-        <div
-          className="bg-red-500 flex justify-center relative"
-          style={{ width: "300px", height: "60px", alignItems: "center" }}
-        >
-          <div
-            className="absolute bg-red-500"
-            style={{ width: "3px", height: "90px", bottom: "-90px" }}
-          ></div>
-          <div
-            className="bg-red-500 absolute flex justify-center"
-            style={{
-              borderRadius: "50%",
-              width: "60px",
-              height: "60px",
-              top: "150px",
-              alignItems: "center",
-              color: "#fff",
-            }}
-          >
-            <PiCertificate style={{ width: "40px", height: "40px" }} />
-          </div>
-          <div
-            className="bg-white"
-            style={{ width: "20px", height: "20px", borderRadius: "50%" }}
-          ></div>
-          <div className="absolute" style={{ top: "-70px", color: "red" }}>
-            <p className="text-3xl font-bold text-center">4</p>
-            <p className="text-lg font-bold">Sertifikat qazan</p>
-          </div>
-        </div>
-        <style>
-
-        </style>
-      </div >
-      <div className="vvv"  style={{ backgroundColor: "#EFEEEE" }}>
-        <div className=" hidden md:block bg-[#efeee] py-20" style={{
-          width: "80%",
-          margin: "100px auto",
-          gap:"10px"
-        }}>
-          <div className="container mx-auto px-4" >
+          <div className="container mx-auto px-4">
             <h2 className="text-4xl font-medium text-center mb-12">Dərslər</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 justify-items-center">
               {/* Kurs kartı 1 */}
-              <div className="flex bg-white rounded-2xl shadow-lg w-[200px] h-[140px] p-3 items-center relative overflow-visible">
+              <div className="flex bg-white rounded-2xl shadow-lg w-[540px] h-[210px] p-3 items-center relative overflow-visible">
                 {/* Şəkil hissəsi */}
                 <div className="relative flex-shrink-0" style={{ width: "140px", height: "140px" }}>
                   <div
@@ -586,7 +694,7 @@ function HomePage() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      boxShadow: "0 8px 24px 0 rgba(39,123,233,0.15)"
+                      boxShadow: "0 8px 24px 0 rgba(39,123,233,0.15)",
                     }}
                   >
                     <img
@@ -594,11 +702,9 @@ function HomePage() {
                       alt="Kurs şəkli"
                       className="w-[190px] h-[190px] object-contain rounded-xl"
                       style={{ boxShadow: "0 4px 16px 0 rgba(39,123,233,0.10)" }}
-
                     />
                   </div>
                 </div>
-            
                 <div>
                   <span className="text-gray-500 text-sm">26 December 2019</span>
                   <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -616,9 +722,8 @@ function HomePage() {
                 </div>
               </div>
 
-
               {/* Kurs kartı 2 */}
-              <div className="flex bg-white rounded-2xl shadow-lg w-[200px] h-[140px] p-3 items-center relative overflow-visible">
+              <div className="flex bg-white rounded-2xl shadow-lg w-[540px] h-[210px] p-3 items-center relative overflow-visible">
                 {/* Şəkil hissəsi */}
                 <div className="relative flex-shrink-0" style={{ width: "140px", height: "140px" }}>
                   <div
@@ -633,7 +738,7 @@ function HomePage() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      boxShadow: "0 8px 24px 0 rgba(39,123,233,0.15)"
+                      boxShadow: "0 8px 24px 0 rgba(39,123,233,0.15)",
                     }}
                   >
                     <img
@@ -641,11 +746,9 @@ function HomePage() {
                       alt="Kurs şəkli"
                       className="w-[190px] h-[190px] object-contain rounded-xl"
                       style={{ boxShadow: "0 4px 16px 0 rgba(39,123,233,0.10)" }}
-                      
                     />
                   </div>
                 </div>
-               
                 <div>
                   <span className="text-gray-500 text-sm">26 December 2019</span>
                   <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -662,9 +765,9 @@ function HomePage() {
                   </button>
                 </div>
               </div>
+
               {/* Kurs kartı 3 */}
-             <div className="flex bg-white rounded-2xl shadow-lg w-[200px] h-[140px] p-3 items-center relative overflow-visible">
-              
+              <div className="flex bg-white rounded-2xl shadow-lg w-[540px] h-[210px] p-3 items-center relative overflow-visible">
                 <div className="relative flex-shrink-0" style={{ width: "140px", height: "140px" }}>
                   <div
                     className="bg-white rounded-2xl shadow-lg"
@@ -678,7 +781,7 @@ function HomePage() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      boxShadow: "0 8px 24px 0 rgba(39,123,233,0.15)"
+                      boxShadow: "0 8px 24px 0 rgba(39,123,233,0.15)",
                     }}
                   >
                     <img
@@ -686,11 +789,9 @@ function HomePage() {
                       alt="Kurs şəkli"
                       className="w-[190px] h-[190px] object-contain rounded-xl"
                       style={{ boxShadow: "0 4px 16px 0 rgba(39,123,233,0.10)" }}
-                      
                     />
                   </div>
                 </div>
-               
                 <div>
                   <span className="text-gray-500 text-sm">26 December 2019</span>
                   <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -707,9 +808,9 @@ function HomePage() {
                   </button>
                 </div>
               </div>
+
               {/* Kurs kartı 4 */}
-              <div className="flex bg-white rounded-2xl shadow-lg w-[200px] h-[140px] p-3 items-center relative overflow-visible">
-               
+              <div className="flex bg-white rounded-2xl shadow-lg w-[540px] h-[210px] p-3 items-center relative overflow-visible">
                 <div className="relative flex-shrink-0" style={{ width: "140px", height: "140px" }}>
                   <div
                     className="bg-white rounded-2xl shadow-lg"
@@ -723,19 +824,17 @@ function HomePage() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      boxShadow: "0 8px 24px 0 rgba(39,123,233,0.15)"
+                      boxShadow: "0 8px 24px 0 rgba(39,123,233,0.15)",
                     }}
                   >
                     <img
-                      src="/foto15.jpg"
+                      src="/foto15.png"
                       alt="Kurs şəkli"
                       className="w-[190px] h-[190px] object-contain rounded-xl"
                       style={{ boxShadow: "0 4px 16px 0 rgba(39,123,233,0.10)" }}
-                      
                     />
                   </div>
                 </div>
-               
                 <div>
                   <span className="text-gray-500 text-sm">26 December 2019</span>
                   <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -756,163 +855,152 @@ function HomePage() {
           </div>
         </div>
 
-
-
-
-
         {/* respansiv (karusel) */}
-<div className="block md:hidden py-12 bg-[#F8F8F8]">
-  <div className="container mx-auto px-4">
-    <h2 className="text-3xl font-medium text-center mb-8">Dərslər</h2>
-    <Slider
-      dots={true}
-      infinite={false}
-      speed={500}
-      slidesToShow={1}
-      slidesToScroll={1}
-    >
-      {/* Kart 1 */}
-      <div
-        className="flex flex-col bg-white shadow-lg w-full max-w-[340px] h-[340px] p-6 items-center justify-center relative overflow-visible mx-auto"
-        style={{
-          borderRadius: "0px", 
-        }}
-      >
-        <div className="p-0 mb-4 flex-shrink-0 flex justify-center items-center w-[110px] h-[110px]">
-          <img
-            src="/foto11.png"
-            alt="Kurs şəkli"
-            className="w-[110px] h-[110px] object-contain"
-            style={{ borderRadius: "0px" }}
-          />
-        </div>
-        <div className="flex flex-col justify-center items-center flex-grow text-center">
-          <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
-          <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
-          <p className="text-gray-700 mb-4">
-            Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
-          </p>
-          <button
-            className="hover:text-white px-8 py-2 rounded-none font-medium text-white"
-            style={{
-              background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
-            }}
-          >
-            Kursu al
-          </button>
+        <div className="block md:hidden py-12 bg-[#F8F8F8]">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-medium text-center mb-8">Dərslər</h2>
+            <Slider
+              dots={true}
+              infinite={false}
+              speed={500}
+              slidesToShow={1}
+              slidesToScroll={1}
+              autoplay={true}
+              autoplaySpeed={2000}
+              centerMode={false}
+              responsive={[
+                {
+                  breakpoint: 1300,
+                  settings: {
+                    slidesToShow: 1,
+                    centerMode: false,
+                  },
+                },
+                {
+                  breakpoint: 500,
+                  settings: {
+                    slidesToShow: 1,
+                    centerMode: false,
+                  },
+                },
+              ]}
+            >
+              {/* Kart 1 */}
+              <div className="px-4">
+                <div className="flex flex-col bg-white shadow-lg w-full max-w-[400px] h-[380px] p-6 items-center justify-center relative overflow-visible rounded-none mx-auto">
+                  <div className="flex justify-center items-center mb-4 w-full">
+                    <div className="w-[110px] h-[110px] flex justify-center items-center">
+                      <img src="/foto11.png" alt="Kurs şəkli" className="w-[110px] h-[110px] object-contain" />
+                    </div>
+                  </div>
+                  <div className="flex flex-col justify-center items-center text-center flex-grow">
+                    <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
+                    <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
+                    <p className="text-gray-700 mb-4">
+                      Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
+                    </p>
+                    <button
+                      className="hover:text-white px-8 py-2 rounded-none font-medium text-white"
+                      style={{
+                        background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
+                      }}
+                    >
+                      Kursu al
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Kart 2 */}
+              <div className="px-4">
+                <div className="flex flex-col bg-white shadow-lg w-full max-w-[400px] h-[380px] p-6 items-center justify-center relative overflow-visible rounded-none mx-auto">
+                  <div className="flex justify-center items-center mb-4 w-full">
+                    <div className="w-[110px] h-[110px] flex justify-center items-center">
+                      <img src="/foto12.png" alt="Kurs şəkli" className="w-[110px] h-[110px] object-contain" />
+                    </div>
+                  </div>
+                  <div className="flex flex-col justify-center items-center text-center flex-grow">
+                    <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
+                    <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
+                    <p className="text-gray-700 mb-4">
+                      Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
+                    </p>
+                    <button
+                      className="hover:text-white px-8 py-2 rounded-none font-medium text-white"
+                      style={{
+                        background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
+                      }}
+                    >
+                      Kursu al
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Kart 3 */}
+              <div className="px-4">
+                <div className="flex flex-col bg-white shadow-lg w-full max-w-[400px] h-[380px] p-6 items-center justify-center relative overflow-visible rounded-none mx-auto">
+                  <div className="flex justify-center items-center mb-4 w-full">
+                    <div className="w-[110px] h-[110px] flex justify-center items-center">
+                      <img src="/foto13.png" alt="Kurs şəkli" className="w-[110px] h-[110px] object-contain" />
+                    </div>
+                  </div>
+                  <div className="flex flex-col justify-center items-center text-center flex-grow">
+                    <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
+                    <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
+                    <p className="text-gray-700 mb-4">
+                      Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
+                    </p>
+                    <button
+                      className="hover:text-white px-8 py-2 rounded-none font-medium text-white"
+                      style={{
+                        background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
+                      }}
+                    >
+                      Kursu al
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Kart 4 */}
+              <div className="px-4">
+                <div className="flex flex-col bg-white shadow-lg w-full max-w-[400px] h-[380px] p-6 items-center justify-center relative overflow-visible rounded-none mx-auto">
+                  <div className="flex justify-center items-center mb-4 w-full">
+                    <div className="w-[110px] h-[110px] flex justify-center items-center">
+                      <img src="/foto15.png" alt="Kurs şəkli" className="w-[110px] h-[110px] object-contain" />
+                    </div>
+                  </div>
+                  <div className="flex flex-col justify-center items-center text-center flex-grow">
+                    <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
+                    <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
+                    <p className="text-gray-700 mb-4">
+                      Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
+                    </p>
+                    <button
+                      className="hover:text-white px-8 py-2 rounded-none font-medium text-white"
+                      style={{
+                        background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
+                      }}
+                    >
+                      Kursu al
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Slider>
+          </div>
         </div>
       </div>
-
-      {/* Kart 2 */}
-      <div
-        className="flex flex-col bg-white shadow-lg w-full max-w-[340px] h-[340px] p-6 items-center justify-center relative overflow-visible mx-auto"
-        style={{
-          borderRadius: "0px",
-        }}
-      >
-        <div className="p-0 mb-4 flex-shrink-0 flex justify-center items-center w-[110px] h-[110px]">
-          <img
-            src="/foto12.png"
-            alt="Kurs şəkli"
-            className="w-[110px] h-[110px] object-contain"
-            style={{ borderRadius: "0px" }}
-          />
-        </div>
-        <div className="flex flex-col justify-center items-center flex-grow text-center">
-          <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
-          <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
-          <p className="text-gray-700 mb-4">
-            Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
-          </p>
-          <button
-            className="hover:text-white px-8 py-2 rounded-none font-medium text-white"
-            style={{
-              background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
-            }}
-          >
-            Kursu al
-          </button>
-        </div>
-      </div>
-
-      {/* Kart 3 */}
-      <div
-        className="flex flex-col bg-white shadow-lg w-full max-w-[340px] h-[340px] p-6 items-center justify-center relative overflow-visible mx-auto"
-        style={{
-          borderRadius: "0px",
-        }}
-      >
-        <div className="p-0 mb-4 flex-shrink-0 flex justify-center items-center w-[110px] h-[110px]">
-          <img
-            src="/foto13.png"
-            alt="Kurs şəkli"
-            className="w-[110px] h-[110px] object-contain"
-            style={{ borderRadius: "0px" }}
-          />
-        </div>
-        <div className="flex flex-col justify-center items-center flex-grow text-center">
-          <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
-          <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
-          <p className="text-gray-700 mb-4">
-            Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
-          </p>
-          <button
-            className="hover:text-white px-8 py-2 rounded-none font-medium text-white"
-            style={{
-              background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
-            }}
-          >
-            Kursu al
-          </button>
-        </div>
-      </div>
-
-      {/* Kart 4 */}
-     <div
-        className="flex flex-col bg-white shadow-lg w-full max-w-[340px] h-[340px] p-6 items-center justify-center relative overflow-visible mx-auto"
-        style={{
-          borderRadius: "0px", 
-        }}
-      >
-        <div className="p-0 mb-4 flex-shrink-0 flex justify-center items-center w-[110px] h-[110px]">
-          <img
-            src="/foto15.png"
-            alt="Kurs şəkli"
-            className="w-[110px] h-[110px] object-contain"
-            style={{ borderRadius: "0px" }}
-          />
-        </div>
-        <div className="flex flex-col justify-center items-center flex-grow text-center">
-          <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
-          <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
-          <p className="text-gray-700 mb-4">
-            Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
-          </p>
-          <button
-            className="hover:text-white px-8 py-2 rounded-none font-medium text-white"
-            style={{
-              background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
-            }}
-          >
-            Kursu al
-          </button>
-        </div>
-      </div>
-    </Slider>
-  </div>
-</div>
-
-
-      </div>
-
-
-
 
       {/* Təlimçi bölməsi */}
-      <div className="bg-white py-20" style={{
-        width: "80%",
-        margin: "0 auto"
-      }}>
+      <div
+        className="bg-white py-20"
+        style={{
+          width: "80%",
+          margin: "0 auto",
+        }}
+      >
         {/* Başlıq */}
         <div className="text-center mb-12">
           <h2 className="text-4xl font-medium text-gray-900">Təlimçi</h2>
@@ -920,7 +1008,6 @@ function HomePage() {
 
         {/* text */}
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-10">
-
           {/* Sol tərəf - Yazılar */}
           <div className="md:w-1/2 text-left">
             <h3 className="text-2xl font-semibold text-gray-800 mb-4">Orxan Məmmədov</h3>
@@ -943,23 +1030,21 @@ function HomePage() {
                 borderRadius: "200px 20px 0px 0px",
                 width: "370px",
                 height: "400px",
-
-
-
               }}
             >
-              <img src="/orxan.png" alt="Orxan Məmmədov" className="object-cover absolute" style={
-                {
+              <img
+                src="/orxan.png"
+                alt="Orxan Məmmədov"
+                className="object-cover absolute"
+                style={{
                   width: "496px",
                   height: "500px",
                   bottom: "-40px",
                   right: "-10px",
-
-                }
-              } />
+                }}
+              />
             </div>
           </div>
-
         </div>
       </div>
 
@@ -967,12 +1052,13 @@ function HomePage() {
       <div className="flex items-center justify-center p-4" style={{ backgroundColor: "#f1f1f1" }}>
         <div className="w-full max-w-2xl p-8">
           <h1 className="text-4xl font-semibold text-center mb-12 text-black">Əlaqə</h1>
-
           <form onSubmit={handleContactSubmit} className="space-y-6">
             {/* Ad və Soyad */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label htmlFor="ad" className="text-[16px] font-medium text-black block">Ad</label>
+                <label htmlFor="ad" className="text-[16px] font-medium text-black block">
+                  Ad
+                </label>
                 <input
                   id="ad"
                   name="ad"
@@ -983,9 +1069,10 @@ function HomePage() {
                   className="h-12 w-full bg-[#EFEEEE] border border-black px-4 py-2 text-black placeholder:text-gray-500 rounded focus:outline-none focus:border-black"
                 />
               </div>
-
               <div className="space-y-2">
-                <label htmlFor="soyad" className="text-[16px] font-medium text-black block">Soyad</label>
+                <label htmlFor="soyad" className="text-[16px] font-medium text-black block">
+                  Soyad
+                </label>
                 <input
                   id="soyad"
                   name="soyad"
@@ -1000,7 +1087,9 @@ function HomePage() {
 
             {/* Email */}
             <div className="space-y-2">
-              <label htmlFor="contact-email" className="text-[16px] font-medium text-black block">Email</label>
+              <label htmlFor="contact-email" className="text-[16px] font-medium text-black block">
+                Email
+              </label>
               <input
                 id="contact-email"
                 name="email"
@@ -1014,7 +1103,9 @@ function HomePage() {
 
             {/* Telefon nömrəsi */}
             <div className="space-y-2">
-              <label htmlFor="telefon" className="text-[16px] font-medium text-black block">Telefon nömrəsi</label>
+              <label htmlFor="telefon" className="text-[16px] font-medium text-black block">
+                Telefon nömrəsi
+              </label>
               <input
                 id="telefon"
                 name="telefon"
@@ -1028,7 +1119,9 @@ function HomePage() {
 
             {/* Mesaj */}
             <div className="space-y-2">
-              <label htmlFor="mesaj" className="text-[16px] font-medium text-black block">Mesaj</label>
+              <label htmlFor="mesaj" className="text-[16px] font-medium text-black block">
+                Mesaj
+              </label>
               <textarea
                 id="mesaj"
                 name="mesaj"
@@ -1055,11 +1148,10 @@ function HomePage() {
         </div>
       </div>
 
-
       {/* Footer */}
-      <footer className="w-full mt-20 py-8" style={{ backgroundColor: '#f1f1f1', marginTop: "50px" }}>
+      <footer className="w-full mt-20 py-8" style={{ backgroundColor: "#f1f1f1", marginTop: "50px" }}>
         <div className="max-w-6xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr] gap-8">
             {/* Logo */}
             <div className="space-y-4 flex flex-col">
               <div className="flex items-center space-x-2">
@@ -1072,17 +1164,26 @@ function HomePage() {
                 <h2 className="text-2xl font-bold text-gray-800">Onlaynders.az</h2>
               </div>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Lorem ipsum dolor sit amet consectetur. Varius enim eu ac tempus integer. In urna eget tortor morbi odio sed et tincidunt.
+                Lorem ipsum dolor sit amet consectetur. Varius enim eu ac tempus integer. In urna eget tortor morbi odio
+                sed et tincidunt.
               </p>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-4"  >
               <h3 className="text-lg font-semibold text-gray-800">Ana səhifə</h3>
               <nav className="flex flex-col space-y-3">
-                <a href="#" className="text-black hover:text-gray-800 transition-colors">Haqqımızda</a>
-                <a href="#" className="text-black hover:text-gray-800 transition-colors">Dərslər</a>
-                <a href="#" className="text-black hover:text-gray-800 transition-colors">Əlaqə</a>
-                <a href="#" className="text-black hover:text-gray-800 transition-colors">Təlimçi</a>
+                <a href="#" className="text-black hover:text-gray-800 transition-colors">
+                  Haqqımızda
+                </a>
+                <a href="#" className="text-black hover:text-gray-800 transition-colors">
+                  Dərslər
+                </a>
+                <a href="#" className="text-black hover:text-gray-800 transition-colors">
+                  Əlaqə
+                </a>
+                <a href="#" className="text-black hover:text-gray-800 transition-colors">
+                  Təlimçi
+                </a>
               </nav>
             </div>
 
@@ -1112,16 +1213,10 @@ function HomePage() {
                   <FaYoutube fontSize={24} className="text-black hover:text-red-600 transition-colors" />
                 </div>
               </div>
-
             </div>
           </div>
         </div>
       </footer>
-
-
-
-
-
     </>
   )
 }
