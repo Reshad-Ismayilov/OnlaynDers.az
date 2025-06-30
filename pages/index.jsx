@@ -160,7 +160,7 @@ function HomePage() {
   return (
     <>
       <Head>
-        <title>Online Dərs - Girişə</title>
+        <title>Onlaynders.az</title>
         <meta name="description" content="Online dərs platforması" />
       </Head>
 
@@ -177,7 +177,7 @@ function HomePage() {
             <div className="bg-green-500 rounded-sm"></div>
           </div>
           <span className="block md:hidden font-semibold text-base text-black">Onlaynders.az</span>
-          {/* Desktop Menu */}
+          
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-black">
             <Link href="/">{t("Ana səhifə")}</Link>
             <Link href="/about">{t("Haqqımızda")}</Link>
@@ -187,7 +187,6 @@ function HomePage() {
           </nav>
         </div>
 
-        {/* Desktop button */}
         <button
           className="hidden md:block hover:text-white px-8 py-2 rounded-full font-medium text-white"
           style={{
@@ -701,7 +700,7 @@ function HomePage() {
                       src="/foto11.png"
                       alt="Kurs şəkli"
                       className="w-[190px] h-[190px] object-contain rounded-xl"
-                      style={{ boxShadow: "0 4px 16px 0 rgba(39,123,233,0.10)" }}
+                      style={{ boxShadow: "0 4px 16px 0 rgba(28, 84, 158, 0.9)" }}
                     />
                   </div>
                 </div>
