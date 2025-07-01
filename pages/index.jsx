@@ -1,9 +1,10 @@
 "use client"
+
 import Head from "next/head"
 import { DM_Sans } from "next/font/google"
 import { useTranslation } from "react-i18next"
 import AuthLayout from "@/app/AuthLayout"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/router"
 import { useAuth } from "@/hooks/useAuth"
 import { API_URL } from "@/app/apiconfig"
@@ -25,6 +26,7 @@ import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import Slider from "react-slick"
 import { Autoplay } from "swiper/modules"
+import { motion, useInView } from "framer-motion"
 
 const DMSans = DM_Sans({ subsets: ["latin"] })
 
@@ -37,6 +39,54 @@ function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false)
   const router = useRouter()
   const { handleLogin } = useAuth()
+
+  // Animation ref for the butere section
+  const animationRef = useRef(null)
+  const isInView = useInView(animationRef, { once: true, amount: 0.3 })
+
+  // Animation ref for the trainer section
+  const trainerRef = useRef(null)
+  const isTrainerInView = useInView(trainerRef, { once: true, amount: 0.3 })
+
+  // Animation ref for the contact section
+  const contactRef = useRef(null)
+  const isContactInView = useInView(contactRef, { once: true, amount: 0.3 })
+
+  // Animation ref for the courses section
+  const coursesRef = useRef(null)
+  const isCoursesInView = useInView(coursesRef, { once: true, amount: 0.3 })
+
+  // Animation ref for the footer section
+  const footerRef = useRef(null)
+  const isFooterInView = useInView(footerRef, { once: true, amount: 0.3 })
+
+  // Animation variants
+  const leftVariants = {
+    hidden: { opacity: 0, x: -100 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.8, ease: "easeOut" },
+    },
+  }
+
+  const rightVariants = {
+    hidden: { opacity: 0, x: 100 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.8, ease: "easeOut" },
+    },
+  }
+
+  const fallDownVariants = {
+    hidden: { opacity: 0, y: -50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" },
+    },
+  }
 
   // Roadmap animation states
   const [openStep, setOpenStep] = useState([true, true, true, true])
@@ -159,6 +209,53 @@ function HomePage() {
 
   return (
     <>
+      <style jsx>{`
+        @keyframes slideInFromLeft {
+          from {
+            transform: translateX(-100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+
+        @keyframes slideInFromRight {
+          from {
+            transform: translateX(100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+
+        .animate-slide-left {
+          animation: slideInFromLeft 0.8s ease-out forwards;
+        }
+
+        .animate-slide-right {
+          animation: slideInFromRight 0.8s ease-out forwards;
+        }
+
+        .card-initial {
+          opacity: 0;
+          transform: translateX(-100%);
+        }
+
+        .card-initial-right {
+          opacity: 0;
+          transform: translateX(100%);
+        }
+
+        .card-visible {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      `}</style>
+
       <Head>
         <title>Onlaynders.az</title>
         <meta name="description" content="Online dərs platforması" />
@@ -166,42 +263,41 @@ function HomePage() {
 
       <div className="buter">
         <div className="mx-auto px-4 sm:px-6 lg:px-8">
-         <div className="bg-white shadow-sm relative py-4">
-      <div className="container mx-auto px-6 max-w-screen-2xl flex items-center justify-between">
-        {/* Logo və menyu */}
-        <div className="flex items-center justify-start gap-6">
-          <div className="w-5 h-5 grid grid-cols-2 gap-0.5">
-            <div className="bg-blue-500 rounded-sm"></div>
-            <div className="bg-red-500 rounded-sm"></div>
-            <div className="bg-yellow-500 rounded-sm"></div>
-            <div className="bg-green-500 rounded-sm"></div>
+          <div className="bg-white shadow-sm relative py-4">
+            <div className="container mx-auto px-6 max-w-screen-2xl flex items-center justify-between">
+              {/* Logo və menyu */}
+              <div className="flex items-center justify-start gap-6">
+                <div className="w-5 h-5 grid grid-cols-2 gap-0.5">
+                  <div className="bg-blue-500 rounded-sm"></div>
+                  <div className="bg-red-500 rounded-sm"></div>
+                  <div className="bg-yellow-500 rounded-sm"></div>
+                  <div className="bg-green-500 rounded-sm"></div>
+                </div>
+                <span className="block md:hidden font-semibold text-base text-black">Onlaynders.az</span>
+                <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-black">
+                  <Link href="/">{t("Ana səhifə")}</Link>
+                  <Link href="/about">{t("Haqqımızda")}</Link>
+                  <Link href="/courses">{t("Dərslər")}</Link>
+                  <Link href="/trainer">{t("Təlimçi")}</Link>
+                  <Link href="/contact">{t("Əlaqə")}</Link>
+                </nav>
+              </div>
+
+              <button
+                className="hidden md:block hover:text-white px-8 py-2 rounded-full font-medium text-white"
+                style={{
+                  background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
+                }}
+              >
+                Kurs al
+              </button>
+
+              {/* Mobil hamburger icon */}
+              <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
+                {menuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
-          <span className="block md:hidden font-semibold text-base text-black">Onlaynders.az</span>
-          
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-black">
-            <Link href="/">{t("Ana səhifə")}</Link>
-            <Link href="/about">{t("Haqqımızda")}</Link>
-            <Link href="/courses">{t("Dərslər")}</Link>
-            <Link href="/trainer">{t("Təlimçi")}</Link>
-            <Link href="/contact">{t("Əlaqə")}</Link>
-          </nav>
-        </div>
-
-        <button
-          className="hidden md:block hover:text-white px-8 py-2 rounded-full font-medium text-white"
-          style={{
-            background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
-          }}
-        >
-          Kurs al
-        </button>
-
-        {/* Mobil hamburger icon */}
-        <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-    </div>
 
           {/* Mobil menyuu hissə */}
           {menuOpen && (
@@ -250,11 +346,11 @@ function HomePage() {
         </div>
 
         <div
-          className="hidden md:flex flex-wrap gap-[20px] justify-center px-4 md:px-8 pt-6 pr-5 pb-6 pl-5"
+          className=" hidden md:flex flex-wrap gap-[20px] justify-center px-4 md:px-8 pt-6 pr-5 pb-6 pl-5"
           style={{ gap: "25px" }}
         >
           <div
-            className="text-white shadow-lg flex items-center overflow-hidden"
+            className="text-white shadow-lg flex items-center justify-center text-center p-4 text-sm overflow-hidden"
             style={{
               width: "404px",
               height: "172px",
@@ -267,12 +363,13 @@ function HomePage() {
               borderBottomLeftRadius: "50px",
             }}
           >
-            Onlaynders.az platforması, kompüter və texnologiya üzrə ən son yenilikləri öyrənmək istəyənlər üçün
-            yaradılmış interaktiv bir tədris vasitəsidir.
+            Onlaynders.az platforması, kompüter və texnologiya üzrə ən son yenilikləri öyrənmək istəyənlər üçün yaradılmış
+            interaktiv bir tədris vasitəsidir.
           </div>
 
+
           <div
-            className="text-white shadow-lg flex items-center overflow-hidden"
+            className="text-white shadow-lg flex items-center justify-center text-center overflow-hidden"
             style={{
               width: "404px",
               height: "172px",
@@ -288,8 +385,9 @@ function HomePage() {
             Yeni başlayanlar üçün anlaşıqlı və sadə dildə izahlar.
           </div>
 
+
           <div
-            className="text-white shadow-lg flex items-center overflow-hidden"
+            className="text-white shadow-lg flex items-center justify-center text-center p-4 text-sm overflow-hidden"
             style={{
               width: "404px",
               height: "172px",
@@ -304,6 +402,7 @@ function HomePage() {
           >
             Kurslar, addım-addım izahla birlikdə videolar və ətraflı izahlarla təklif olunur.
           </div>
+
         </div>
 
         {/* respansiv */}
@@ -381,12 +480,19 @@ function HomePage() {
         </div>
       </div>
 
-      <div className="butere">
+      {/* Animated Section */}
+      <div className="butere" ref={animationRef}>
         <div className="max-w-10xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             <div className="flex flex-col md:flex-row">
-              <div className="md:w-1/2 p-8 flex flex-col justify-center">
+              <motion.div
+                className="md:w-1/2 p-8 flex flex-col justify-center"
+                variants={leftVariants}
+                initial="hidden"
+                animate={isInView ? "visible" : "hidden"}
+              >
                 <h2 className="text-4xl font-medium mb-6">Onlaynders.az – Təhsil və İnnovasiya</h2>
+
                 <ul className="space-y-4 mb-8">
                   <li className="flex items-center">
                     <span className="text-black-700 mr-2">•</span>
@@ -421,9 +527,14 @@ function HomePage() {
                     Müraciət et
                   </button>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="md:w-1/2">
+              <motion.div
+                className="md:w-1/2"
+                variants={rightVariants}
+                initial="hidden"
+                animate={isInView ? "visible" : "hidden"}
+              >
                 <div className="relative h-full w-full">
                   <div className="flex items-center justify-center p-8">
                     <div className="relative w-[500px] h-[400px]">
@@ -440,25 +551,21 @@ function HomePage() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Auto-Playing Yol Xəritəsi */}
+      {/* Yol Xəritəsi */}
       <div className="w-full py-20">
         <h1 className="text-center text-3xl font-semibold mb-20">Yol Xəritəniz</h1>
 
-        {/* Auto-play control */}
         <div className="text-center mb-8">
           <button
             onClick={() => setIsAutoPlaying(!isAutoPlaying)}
             className="px-6 py-2 rounded-full text-sm font-medium transition-colors"
-            
-          >
-            
-          </button>
+          ></button>
         </div>
 
         <div
@@ -501,7 +608,9 @@ function HomePage() {
             >
               <RiMoneyDollarCircleLine style={{ width: "40px", height: "40px" }} />
             </div>
+
             <div className="bg-white" style={{ width: "20px", height: "20px", borderRadius: "50%" }}></div>
+
             <div
               className="absolute transition-all duration-700"
               style={{
@@ -550,7 +659,9 @@ function HomePage() {
             >
               <FaRegPlayCircle style={{ width: "40px", height: "40px" }} />
             </div>
+
             <div className="bg-white" style={{ width: "20px", height: "20px", borderRadius: "50%" }}></div>
+
             <div
               className="absolute transition-all duration-700"
               style={{
@@ -599,7 +710,9 @@ function HomePage() {
             >
               <PiExamLight style={{ width: "40px", height: "40px" }} />
             </div>
+
             <div className="bg-white" style={{ width: "20px", height: "20px", borderRadius: "50%" }}></div>
+
             <div
               className="absolute transition-all duration-700"
               style={{
@@ -648,7 +761,9 @@ function HomePage() {
             >
               <PiCertificate style={{ width: "40px", height: "40px" }} />
             </div>
+
             <div className="bg-white" style={{ width: "20px", height: "20px", borderRadius: "50%" }}></div>
+
             <div
               className="absolute transition-all duration-700"
               style={{
@@ -667,18 +782,24 @@ function HomePage() {
 
       <div className="vvv" style={{ backgroundColor: "#f1f1f1" }}>
         <div
-          className=" hidden md:block bg-[#efeee] py-20"
+          className="cards-section hidden md:block bg-[#efeee] py-20"
           style={{
             width: "80%",
             margin: "100px auto",
             gap: "10px",
           }}
+          ref={coursesRef}
         >
           <div className="container mx-auto px-4">
             <h2 className="text-4xl font-medium text-center mb-12">Dərslər</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 justify-items-center">
-              {/* Kurs kartı 1 */}
-              <div className="flex bg-white rounded-2xl shadow-lg w-[540px] h-[210px] p-3 items-center relative overflow-visible">
+              {/* Kurs kartı 1 - Sol tərəfdən */}
+              <motion.div
+                className="flex bg-white rounded-2xl shadow-lg w-[540px] h-[210px] p-3 items-center relative overflow-visible"
+                variants={leftVariants}
+                initial="hidden"
+                animate={isCoursesInView ? "visible" : "hidden"}
+              >
                 {/* Şəkil hissəsi */}
                 <div className="relative flex-shrink-0" style={{ width: "140px", height: "140px" }}>
                   <div
@@ -704,6 +825,7 @@ function HomePage() {
                     />
                   </div>
                 </div>
+
                 <div>
                   <span className="text-gray-500 text-sm">26 December 2019</span>
                   <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -719,10 +841,15 @@ function HomePage() {
                     Kursu al
                   </button>
                 </div>
-              </div>
+              </motion.div>
 
-              {/* Kurs kartı 2 */}
-              <div className="flex bg-white rounded-2xl shadow-lg w-[540px] h-[210px] p-3 items-center relative overflow-visible">
+              {/* Kurs kartı 2 - Sağ tərəfdən */}
+              <motion.div
+                className="flex bg-white rounded-2xl shadow-lg w-[540px] h-[210px] p-3 items-center relative overflow-visible"
+                variants={rightVariants}
+                initial="hidden"
+                animate={isCoursesInView ? "visible" : "hidden"}
+              >
                 {/* Şəkil hissəsi */}
                 <div className="relative flex-shrink-0" style={{ width: "140px", height: "140px" }}>
                   <div
@@ -744,10 +871,11 @@ function HomePage() {
                       src="/foto12.png"
                       alt="Kurs şəkli"
                       className="w-[190px] h-[190px] object-contain rounded-xl"
-                      style={{ boxShadow: "0 4px 16px 0 rgba(39,123,233,0.10)" }}
+                      style={{ boxShadow: "0 4px 16px 0 rgba(28, 84, 158, 0.9)" }}
                     />
                   </div>
                 </div>
+
                 <div>
                   <span className="text-gray-500 text-sm">26 December 2019</span>
                   <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -763,10 +891,15 @@ function HomePage() {
                     Kursu al
                   </button>
                 </div>
-              </div>
+              </motion.div>
 
-              {/* Kurs kartı 3 */}
-              <div className="flex bg-white rounded-2xl shadow-lg w-[540px] h-[210px] p-3 items-center relative overflow-visible">
+              {/* Kurs kartı 3 - Sol tərəfdən */}
+              <motion.div
+                className="flex bg-white rounded-2xl shadow-lg w-[540px] h-[210px] p-3 items-center relative overflow-visible"
+                variants={leftVariants}
+                initial="hidden"
+                animate={isCoursesInView ? "visible" : "hidden"}
+              >
                 <div className="relative flex-shrink-0" style={{ width: "140px", height: "140px" }}>
                   <div
                     className="bg-white rounded-2xl shadow-lg"
@@ -787,10 +920,11 @@ function HomePage() {
                       src="/foto13.png"
                       alt="Kurs şəkli"
                       className="w-[190px] h-[190px] object-contain rounded-xl"
-                      style={{ boxShadow: "0 4px 16px 0 rgba(39,123,233,0.10)" }}
+                      style={{ boxShadow: "0 4px 16px 0 rgba(28, 84, 158, 0.9)" }}
                     />
                   </div>
                 </div>
+
                 <div>
                   <span className="text-gray-500 text-sm">26 December 2019</span>
                   <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -806,10 +940,15 @@ function HomePage() {
                     Kursu al
                   </button>
                 </div>
-              </div>
+              </motion.div>
 
-              {/* Kurs kartı 4 */}
-              <div className="flex bg-white rounded-2xl shadow-lg w-[540px] h-[210px] p-3 items-center relative overflow-visible">
+              {/* Kurs kartı 4 - Sağ tərəfdən */}
+              <motion.div
+                className="flex bg-white rounded-2xl shadow-lg w-[540px] h-[210px] p-3 items-center relative overflow-visible"
+                variants={rightVariants}
+                initial="hidden"
+                animate={isCoursesInView ? "visible" : "hidden"}
+              >
                 <div className="relative flex-shrink-0" style={{ width: "140px", height: "140px" }}>
                   <div
                     className="bg-white rounded-2xl shadow-lg"
@@ -830,10 +969,11 @@ function HomePage() {
                       src="/foto15.png"
                       alt="Kurs şəkli"
                       className="w-[190px] h-[190px] object-contain rounded-xl"
-                      style={{ boxShadow: "0 4px 16px 0 rgba(39,123,233,0.10)" }}
+                      style={{ boxShadow: "0 4px 16px 0 rgba(28, 84, 158, 0.9)" }}
                     />
                   </div>
                 </div>
+
                 <div>
                   <span className="text-gray-500 text-sm">26 December 2019</span>
                   <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -849,7 +989,7 @@ function HomePage() {
                     Kursu al
                   </button>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -886,12 +1026,24 @@ function HomePage() {
             >
               {/* Kart 1 */}
               <div className="px-4">
-                <div className="flex flex-col bg-white shadow-lg w-full max-w-[400px] h-[380px] p-6 items-center justify-center relative overflow-visible rounded-none mx-auto">
-                  <div className="flex justify-center items-center mb-4 w-full">
+                <div
+                  className="flex flex-col bg-white shadow-lg items-center justify-center relative overflow-visible mx-auto rounded-lg"
+                  style={{
+                    width: "343px",
+                    height: "411px",
+                    gap: "40px",
+                    paddingTop: "30px",
+                    paddingRight: "12px",
+                    paddingBottom: "30px",
+                    paddingLeft: "12px",
+                  }}
+                >
+                  <div className="flex justify-center items-center w-full">
                     <div className="w-[110px] h-[110px] flex justify-center items-center">
                       <img src="/foto11.png" alt="Kurs şəkli" className="w-[110px] h-[110px] object-contain" />
                     </div>
                   </div>
+
                   <div className="flex flex-col justify-center items-center text-center flex-grow">
                     <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
                     <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -899,9 +1051,10 @@ function HomePage() {
                       Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
                     </p>
                     <button
-                      className="hover:text-white px-8 py-2 rounded-none font-medium text-white"
+                      className="hover:text-white px-8 py-2 font-medium text-white"
                       style={{
                         background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
+                        borderRadius: "80px",
                       }}
                     >
                       Kursu al
@@ -912,12 +1065,24 @@ function HomePage() {
 
               {/* Kart 2 */}
               <div className="px-4">
-                <div className="flex flex-col bg-white shadow-lg w-full max-w-[400px] h-[380px] p-6 items-center justify-center relative overflow-visible rounded-none mx-auto">
-                  <div className="flex justify-center items-center mb-4 w-full">
+                <div
+                  className="flex flex-col bg-white shadow-lg items-center justify-center relative overflow-visible mx-auto rounded-lg"
+                  style={{
+                    width: "343px",
+                    height: "411px",
+                    gap: "40px",
+                    paddingTop: "30px",
+                    paddingRight: "12px",
+                    paddingBottom: "30px",
+                    paddingLeft: "12px",
+                  }}
+                >
+                  <div className="flex justify-center items-center w-full">
                     <div className="w-[110px] h-[110px] flex justify-center items-center">
                       <img src="/foto12.png" alt="Kurs şəkli" className="w-[110px] h-[110px] object-contain" />
                     </div>
                   </div>
+
                   <div className="flex flex-col justify-center items-center text-center flex-grow">
                     <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
                     <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -925,9 +1090,10 @@ function HomePage() {
                       Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
                     </p>
                     <button
-                      className="hover:text-white px-8 py-2 rounded-none font-medium text-white"
+                      className="hover:text-white px-8 py-2 font-medium text-white"
                       style={{
                         background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
+                        borderRadius: "80px",
                       }}
                     >
                       Kursu al
@@ -938,12 +1104,24 @@ function HomePage() {
 
               {/* Kart 3 */}
               <div className="px-4">
-                <div className="flex flex-col bg-white shadow-lg w-full max-w-[400px] h-[380px] p-6 items-center justify-center relative overflow-visible rounded-none mx-auto">
-                  <div className="flex justify-center items-center mb-4 w-full">
+                <div
+                  className="flex flex-col bg-white shadow-lg items-center justify-center relative overflow-visible mx-auto rounded-lg"
+                  style={{
+                    width: "343px",
+                    height: "411px",
+                    gap: "40px",
+                    paddingTop: "30px",
+                    paddingRight: "12px",
+                    paddingBottom: "30px",
+                    paddingLeft: "12px",
+                  }}
+                >
+                  <div className="flex justify-center items-center w-full">
                     <div className="w-[110px] h-[110px] flex justify-center items-center">
                       <img src="/foto13.png" alt="Kurs şəkli" className="w-[110px] h-[110px] object-contain" />
                     </div>
                   </div>
+
                   <div className="flex flex-col justify-center items-center text-center flex-grow">
                     <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
                     <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -951,9 +1129,10 @@ function HomePage() {
                       Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
                     </p>
                     <button
-                      className="hover:text-white px-8 py-2 rounded-none font-medium text-white"
+                      className="hover:text-white px-8 py-2 font-medium text-white"
                       style={{
                         background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
+                        borderRadius: "80px",
                       }}
                     >
                       Kursu al
@@ -964,12 +1143,24 @@ function HomePage() {
 
               {/* Kart 4 */}
               <div className="px-4">
-                <div className="flex flex-col bg-white shadow-lg w-full max-w-[400px] h-[380px] p-6 items-center justify-center relative overflow-visible rounded-none mx-auto">
-                  <div className="flex justify-center items-center mb-4 w-full">
+                <div
+                  className="flex flex-col bg-white shadow-lg items-center justify-center relative overflow-visible mx-auto rounded-lg"
+                  style={{
+                    width: "343px",
+                    height: "411px",
+                    gap: "40px",
+                    paddingTop: "30px",
+                    paddingRight: "12px",
+                    paddingBottom: "30px",
+                    paddingLeft: "12px",
+                  }}
+                >
+                  <div className="flex justify-center items-center w-full">
                     <div className="w-[110px] h-[110px] flex justify-center items-center">
                       <img src="/foto15.png" alt="Kurs şəkli" className="w-[110px] h-[110px] object-contain" />
                     </div>
                   </div>
+
                   <div className="flex flex-col justify-center items-center text-center flex-grow">
                     <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
                     <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -977,9 +1168,10 @@ function HomePage() {
                       Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
                     </p>
                     <button
-                      className="hover:text-white px-8 py-2 rounded-none font-medium text-white"
+                      className="hover:text-white px-8 py-2 font-medium text-white"
                       style={{
                         background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
+                        borderRadius: "80px",
                       }}
                     >
                       Kursu al
@@ -999,6 +1191,7 @@ function HomePage() {
           width: "80%",
           margin: "0 auto",
         }}
+        ref={trainerRef}
       >
         {/* Başlıq */}
         <div className="text-center mb-12">
@@ -1008,22 +1201,32 @@ function HomePage() {
         {/* text */}
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-10">
           {/* Sol tərəf - Yazılar */}
-          <div className="md:w-1/2 text-left">
-            <h3 className="text-2xl font-semibold text-gray-800 mb-4">Orxan Məmmədov</h3>
-            <p className="text-gray-700 leading-relaxed">
+          <motion.div
+            className="md:w-1/2 text-left px-4"
+            variants={leftVariants}
+            initial="hidden"
+            animate={isTrainerInView ? "visible" : "hidden"}
+          >
+            <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">Orxan Məmmədov</h3>
+            <p className="text-sm sm:text-base md:text-[16px] text-gray-700 leading-relaxed">
               Lorem ipsum dolor sit amet consectetur. Varius enim eu ac tempus integer. In urna eget tortor morbi odio
               sed et tincidunt. Massa eget eu scelerisque egestas arcu enim semper. Amet sociis ut gravida mus varius
               facilisis tristique. Nisl mauris malesuada id massa. Viverra amet sem non lectus turpis dignissim gravida
               dui. Vulputate ornare vitae vel id. Praesent augue vitae feugiat quis in mauris velit dui nibh. Sed elit
               odio imperdiet semper quam eget ultrices. Eu adipiscing mauris adipiscing porttitor ut egestas arcu varius
-              massa. Nunc ipsum ornare tellus tristique eget vitae augue mi.d
+              massa. Nunc ipsum ornare tellus tristique eget vitae augue mi.
             </p>
-          </div>
+          </motion.div>
 
           {/* Şəkil */}
-          <div className="md:w-1/2 flex justify-center">
+          <motion.div
+            className="md:w-1/2 flex justify-center"
+            variants={rightVariants}
+            initial="hidden"
+            animate={isTrainerInView ? "visible" : "hidden"}
+          >
             <div
-              className="w-[150px] h-[100px] shadow-xl relative"
+              className="shadow-xl relative"
               style={{
                 background: "linear-gradient(180deg, #EEEEEE 0%, #082C81 100%)",
                 borderRadius: "200px 20px 0px 0px",
@@ -1034,27 +1237,40 @@ function HomePage() {
               <img
                 src="/orxan.png"
                 alt="Orxan Məmmədov"
-                className="object-cover absolute"
+                className="object-cover absolute w-[400px] h-[420px] sm:w-[280px] sm:h-[300px] md:w-[360px] md:h-[380px] lg:w-[420px] lg:h-[450px] xl:w-[496px] xl:h-[500px]"
                 style={{
-                  width: "496px",
-                  height: "500px",
                   bottom: "-40px",
                   right: "-10px",
                 }}
+                width={496}
+                height={500}
               />
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 
       {/* Əlaqə forması bölməsi */}
-      <div className="flex items-center justify-center p-4" style={{ backgroundColor: "#f1f1f1" }}>
+      <div className="flex items-center justify-center p-4" style={{ backgroundColor: "#f1f1f1" }} ref={contactRef}>
         <div className="w-full max-w-2xl p-8">
-          <h1 className="text-4xl font-semibold text-center mb-12 text-black">Əlaqə</h1>
+          <motion.h1
+            className="text-4xl font-semibold text-center mb-12 text-black"
+            variants={leftVariants}
+            initial="hidden"
+            animate={isContactInView ? "visible" : "hidden"}
+          >
+            Əlaqə
+          </motion.h1>
+
           <form onSubmit={handleContactSubmit} className="space-y-6">
             {/* Ad və Soyad */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
+              <motion.div
+                className="space-y-2"
+                variants={leftVariants}
+                initial="hidden"
+                animate={isContactInView ? "visible" : "hidden"}
+              >
                 <label htmlFor="ad" className="text-[16px] font-medium text-black block">
                   Ad
                 </label>
@@ -1067,8 +1283,14 @@ function HomePage() {
                   onChange={handleContactInputChange}
                   className="h-12 w-full bg-[#EFEEEE] border border-black px-4 py-2 text-black placeholder:text-gray-500 rounded focus:outline-none focus:border-black"
                 />
-              </div>
-              <div className="space-y-2">
+              </motion.div>
+
+              <motion.div
+                className="space-y-2"
+                variants={rightVariants}
+                initial="hidden"
+                animate={isContactInView ? "visible" : "hidden"}
+              >
                 <label htmlFor="soyad" className="text-[16px] font-medium text-black block">
                   Soyad
                 </label>
@@ -1081,11 +1303,16 @@ function HomePage() {
                   onChange={handleContactInputChange}
                   className="h-12 w-full bg-[#EFEEEE] border border-black px-4 py-2 text-black placeholder:text-gray-500 rounded focus:outline-none focus:border-black"
                 />
-              </div>
+              </motion.div>
             </div>
 
             {/* Email */}
-            <div className="space-y-2">
+            <motion.div
+              className="space-y-2"
+              variants={leftVariants}
+              initial="hidden"
+              animate={isContactInView ? "visible" : "hidden"}
+            >
               <label htmlFor="contact-email" className="text-[16px] font-medium text-black block">
                 Email
               </label>
@@ -1098,10 +1325,15 @@ function HomePage() {
                 onChange={handleContactInputChange}
                 className="h-12 w-full bg-[#EFEEEE] border border-black px-4 py-2 text-black placeholder:text-gray-500 rounded focus:outline-none focus:border-black"
               />
-            </div>
+            </motion.div>
 
             {/* Telefon nömrəsi */}
-            <div className="space-y-2">
+            <motion.div
+              className="space-y-2"
+              variants={rightVariants}
+              initial="hidden"
+              animate={isContactInView ? "visible" : "hidden"}
+            >
               <label htmlFor="telefon" className="text-[16px] font-medium text-black block">
                 Telefon nömrəsi
               </label>
@@ -1114,10 +1346,15 @@ function HomePage() {
                 onChange={handleContactInputChange}
                 className="h-12 w-full bg-[#EFEEEE] border border-black px-4 py-2 text-black placeholder:text-gray-500 rounded focus:outline-none focus:border-black"
               />
-            </div>
+            </motion.div>
 
             {/* Mesaj */}
-            <div className="space-y-2">
+            <motion.div
+              className="space-y-2"
+              variants={leftVariants}
+              initial="hidden"
+              animate={isContactInView ? "visible" : "hidden"}
+            >
               <label htmlFor="mesaj" className="text-[16px] font-medium text-black block">
                 Mesaj
               </label>
@@ -1130,10 +1367,15 @@ function HomePage() {
                 placeholder=""
                 className="w-full bg-[#EFEEEE] border border-black px-4 py-2 text-black placeholder:text-gray-500 rounded resize-none focus:outline-none focus:border-black"
               />
-            </div>
+            </motion.div>
 
             {/* Button */}
-            <div className="flex justify-end pt-4">
+            <motion.div
+              className="flex justify-end pt-4"
+              variants={rightVariants}
+              initial="hidden"
+              animate={isContactInView ? "visible" : "hidden"}
+            >
               <button
                 className="hover:text-white px-8 py-2 rounded-full font-medium text-white"
                 style={{
@@ -1142,17 +1384,22 @@ function HomePage() {
               >
                 Göndər
               </button>
-            </div>
+            </motion.div>
           </form>
         </div>
       </div>
 
       {/* Footer */}
-      <footer className="w-full mt-20 py-8" style={{ backgroundColor: "#f1f1f1", marginTop: "50px" }}>
+      <footer className="w-full mt-20 py-8" style={{ backgroundColor: "#f1f1f1", marginTop: "50px" }} ref={footerRef}>
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr] gap-8">
             {/* Logo */}
-            <div className="space-y-4 flex flex-col">
+            <motion.div
+              className="space-y-4 flex flex-col"
+              variants={fallDownVariants}
+              initial="hidden"
+              animate={isFooterInView ? "visible" : "hidden"}
+            >
               <div className="flex items-center space-x-2">
                 <div className="grid grid-cols-2 gap-1 w-8 h-8">
                   <div className="bg-blue-500 rounded-sm"></div>
@@ -1166,9 +1413,14 @@ function HomePage() {
                 Lorem ipsum dolor sit amet consectetur. Varius enim eu ac tempus integer. In urna eget tortor morbi odio
                 sed et tincidunt.
               </p>
-            </div>
+            </motion.div>
 
-            <div className="space-y-4"  >
+            <motion.div
+              className="space-y-4"
+              variants={fallDownVariants}
+              initial="hidden"
+              animate={isFooterInView ? "visible" : "hidden"}
+            >
               <h3 className="text-lg font-semibold text-gray-800">Ana səhifə</h3>
               <nav className="flex flex-col space-y-3">
                 <a href="#" className="text-black hover:text-gray-800 transition-colors">
@@ -1184,9 +1436,14 @@ function HomePage() {
                   Təlimçi
                 </a>
               </nav>
-            </div>
+            </motion.div>
 
-            <div className="space-y-4">
+            <motion.div
+              className="space-y-4"
+              variants={fallDownVariants}
+              initial="hidden"
+              animate={isFooterInView ? "visible" : "hidden"}
+            >
               <h3 className="text-lg font-semibold text-gray-800">Əlaqə məlumatları</h3>
               <p className="text-gray-600 text-sm">Hər hansı sualınız varsa bizimlə əlaqə saxlayın</p>
               <div className="space-y-3">
@@ -1203,7 +1460,7 @@ function HomePage() {
                   <span className="text-black">Bakı, Azərbaycan</span>
                 </div>
 
-                {/* ikonlar */}
+                {/* ikonlar - keep unchanged */}
                 <div className="flex flex-wrap gap-4 pt-2">
                   <IoLogoWhatsapp fontSize={24} className="text-black hover:text-green-500 transition-colors" />
                   <FaSquareInstagram fontSize={24} className="text-black hover:text-pink-500 transition-colors" />
@@ -1212,7 +1469,7 @@ function HomePage() {
                   <FaYoutube fontSize={24} className="text-black hover:text-red-600 transition-colors" />
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </footer>
