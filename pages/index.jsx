@@ -292,7 +292,7 @@ function HomePage() {
                 Kurs al
               </button>
 
-              {/* Mobil hamburger icon */}
+              {/* Mobil hamburger ikonu */}
               <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
                 {menuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -480,7 +480,7 @@ function HomePage() {
         </div>
       </div>
 
-      {/* Animated Section */}
+
       <div className="butere" ref={animationRef}>
         <div className="max-w-10xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
@@ -793,7 +793,7 @@ function HomePage() {
           <div className="container mx-auto px-4">
             <h2 className="text-4xl font-medium text-center mb-12">Dərslər</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 justify-items-center">
-              {/* Kurs kartı 1 - Sol tərəfdən */}
+              {/* Kurs kartı 1*/}
               <motion.div
                 className="flex bg-white rounded-2xl shadow-lg w-[540px] h-[210px] p-3 items-center relative overflow-visible"
                 variants={leftVariants}
@@ -843,7 +843,7 @@ function HomePage() {
                 </div>
               </motion.div>
 
-              {/* Kurs kartı 2 - Sağ tərəfdən */}
+              {/* Kurs kartı 2  */}
               <motion.div
                 className="flex bg-white rounded-2xl shadow-lg w-[540px] h-[210px] p-3 items-center relative overflow-visible"
                 variants={rightVariants}
@@ -893,7 +893,7 @@ function HomePage() {
                 </div>
               </motion.div>
 
-              {/* Kurs kartı 3 - Sol tərəfdən */}
+              {/* Kurs kartı 3 */}
               <motion.div
                 className="flex bg-white rounded-2xl shadow-lg w-[540px] h-[210px] p-3 items-center relative overflow-visible"
                 variants={leftVariants}
@@ -942,7 +942,7 @@ function HomePage() {
                 </div>
               </motion.div>
 
-              {/* Kurs kartı 4 - Sağ tərəfdən */}
+              {/* Kurs kartı 4  */}
               <motion.div
                 className="flex bg-white rounded-2xl shadow-lg w-[540px] h-[210px] p-3 items-center relative overflow-visible"
                 variants={rightVariants}
@@ -1038,12 +1038,20 @@ function HomePage() {
                     paddingLeft: "12px",
                   }}
                 >
+                  {/* Şəkil çərçivəsi ilə */}
                   <div className="flex justify-center items-center w-full">
-                    <div className="w-[110px] h-[110px] flex justify-center items-center">
-                      <img src="/foto11.png" alt="Kurs şəkli" className="w-[110px] h-[110px] object-contain" />
+                    <div
+                      className="w-[120px] h-[120px] flex justify-center items-center bg-[#F1F5F9] border-2 border-blue-500 rounded-lg p-2"
+                    >
+                      <img
+                        src="/foto11.png"
+                        alt="Kurs şəkli"
+                        className="w-[100px] h-[100px] object-contain rounded-lg"
+                      />
                     </div>
                   </div>
 
+                  {/* Mətni hissə */}
                   <div className="flex flex-col justify-center items-center text-center flex-grow">
                     <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
                     <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -1062,6 +1070,7 @@ function HomePage() {
                   </div>
                 </div>
               </div>
+
 
               {/* Kart 2 */}
               <div className="px-4">
@@ -1077,12 +1086,20 @@ function HomePage() {
                     paddingLeft: "12px",
                   }}
                 >
+                  {/* Şəkil çərçivəsi ilə */}
                   <div className="flex justify-center items-center w-full">
-                    <div className="w-[110px] h-[110px] flex justify-center items-center">
-                      <img src="/foto12.png" alt="Kurs şəkli" className="w-[110px] h-[110px] object-contain" />
+                    <div
+                      className="w-[120px] h-[120px] flex justify-center items-center bg-[#F1F5F9] border-2 border-blue-500 rounded-lg p-2"
+                    >
+                      <img
+                        src="/foto12.png"
+                        alt="Kurs şəkli"
+                        className="w-[100px] h-[100px] object-contain rounded-lg"
+                      />
                     </div>
                   </div>
 
+                  {/* Mətni hissə */}
                   <div className="flex flex-col justify-center items-center text-center flex-grow">
                     <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
                     <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -1101,6 +1118,7 @@ function HomePage() {
                   </div>
                 </div>
               </div>
+
 
               {/* Kart 3 */}
               <div className="px-4">
@@ -1116,12 +1134,20 @@ function HomePage() {
                     paddingLeft: "12px",
                   }}
                 >
+
                   <div className="flex justify-center items-center w-full">
-                    <div className="w-[110px] h-[110px] flex justify-center items-center">
-                      <img src="/foto13.png" alt="Kurs şəkli" className="w-[110px] h-[110px] object-contain" />
+                    <div
+                      className="w-[120px] h-[120px] flex justify-center items-center bg-[#F1F5F9] border-2 border-blue-500 rounded-lg p-2"
+                    >
+                      <img
+                        src="/foto13.png"
+                        alt="Kurs şəkli"
+                        className="w-[100px] h-[100px] object-contain rounded-lg"
+                      />
                     </div>
                   </div>
 
+                  {/* Mətni hissə */}
                   <div className="flex flex-col justify-center items-center text-center flex-grow">
                     <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
                     <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -1140,6 +1166,7 @@ function HomePage() {
                   </div>
                 </div>
               </div>
+
 
               {/* Kart 4 */}
               <div className="px-4">
@@ -1155,12 +1182,20 @@ function HomePage() {
                     paddingLeft: "12px",
                   }}
                 >
+                  {/* Şəkil çərçivəsi ilə */}
                   <div className="flex justify-center items-center w-full">
-                    <div className="w-[110px] h-[110px] flex justify-center items-center">
-                      <img src="/foto15.png" alt="Kurs şəkli" className="w-[110px] h-[110px] object-contain" />
+                    <div
+                      className="w-[120px] h-[120px] flex justify-center items-center bg-[#F1F5F9] border-2 border-blue-500 rounded-lg p-2"
+                    >
+                      <img
+                        src="/foto15.png"
+                        alt="Kurs şəkli"
+                        className="w-[100px] h-[100px] object-contain rounded-lg"
+                      />
                     </div>
                   </div>
 
+                  {/* Mətni hissə */}
                   <div className="flex flex-col justify-center items-center text-center flex-grow">
                     <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
                     <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -1179,6 +1214,7 @@ function HomePage() {
                   </div>
                 </div>
               </div>
+
             </Slider>
           </div>
         </div>
@@ -1200,7 +1236,7 @@ function HomePage() {
 
         {/* text */}
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-10">
-          {/* Sol tərəf - Yazılar */}
+
           <motion.div
             className="md:w-1/2 text-left px-4"
             variants={leftVariants}
@@ -1218,7 +1254,7 @@ function HomePage() {
             </p>
           </motion.div>
 
-          {/* Şəkil */}
+          {/*orxan.m Şəkil */}
           <motion.div
             className="md:w-1/2 flex justify-center"
             variants={rightVariants}
@@ -1226,20 +1262,18 @@ function HomePage() {
             animate={isTrainerInView ? "visible" : "hidden"}
           >
             <div
-              className="shadow-xl relative"
+              className="shadow-xl relative w-[280px] h-[300px] sm:w-[320px] sm:h-[340px] md:w-[370px] md:h-[400px] lg:w-[420px] lg:h-[450px] xl:w-[460px] xl:h-[480px]"
               style={{
-                background: "linear-gradient(180deg, #EEEEEE 0%, #082C81 100%)",
+                background: "lin0ear-gradient(180deg, #EEEEEE 0%, #082C81 100%)",
                 borderRadius: "200px 20px 0px 0px",
-                width: "370px",
-                height: "400px",
               }}
             >
               <img
                 src="/orxan.png"
                 alt="Orxan Məmmədov"
-                className="object-cover absolute w-[400px] h-[420px] sm:w-[280px] sm:h-[300px] md:w-[360px] md:h-[380px] lg:w-[420px] lg:h-[450px] xl:w-[496px] xl:h-[500px]"
+                className="object-cover absolute w-[300px] h-[320px] sm:w-[340px] sm:h-[360px] md:w-[380px] md:h-[400px] lg:w-[440px] lg:h-[460px] xl:w-[496px] xl:h-[500px]"
                 style={{
-                  bottom: "-40px",
+                  bottom: "-30px",
                   right: "-10px",
                 }}
                 width={496}
@@ -1247,6 +1281,7 @@ function HomePage() {
               />
             </div>
           </motion.div>
+
         </div>
       </div>
 
@@ -1460,7 +1495,7 @@ function HomePage() {
                   <span className="text-black">Bakı, Azərbaycan</span>
                 </div>
 
-                {/* ikonlar - keep unchanged */}
+                {/* ikonlar  */}
                 <div className="flex flex-wrap gap-4 pt-2">
                   <IoLogoWhatsapp fontSize={24} className="text-black hover:text-green-500 transition-colors" />
                   <FaSquareInstagram fontSize={24} className="text-black hover:text-pink-500 transition-colors" />
