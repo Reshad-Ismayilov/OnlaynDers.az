@@ -1264,7 +1264,8 @@ function HomePage() {
             <div
               className="shadow-xl relative w-[280px] h-[300px] sm:w-[320px] sm:h-[340px] md:w-[370px] md:h-[400px] lg:w-[420px] lg:h-[450px] xl:w-[460px] xl:h-[480px]"
               style={{
-                background: "lin0ear-gradient(180deg, #EEEEEE 0%, #082C81 100%)",
+               background: "linear-gradient(180deg, #EEEEEE 0%, #082C81 100%)",
+
                 borderRadius: "200px 20px 0px 0px",
               }}
             >
@@ -1275,6 +1276,7 @@ function HomePage() {
                 style={{
                   bottom: "-30px",
                   right: "-10px",
+                  
                 }}
                 width={496}
                 height={500}
