@@ -1,5 +1,4 @@
 "use client"
-
 import Head from "next/head"
 import { DM_Sans } from "next/font/google"
 import { useTranslation } from "react-i18next"
@@ -107,7 +106,6 @@ function HomePage() {
     const interval = setInterval(() => {
       setCurrentStep((prev) => {
         const nextStep = (prev + 1) % 4
-
         // Close current step and open next step
         setOpenStep((prevSteps) => {
           const newSteps = [...prevSteps]
@@ -117,7 +115,6 @@ function HomePage() {
           newSteps[nextStep] = true
           return newSteps
         })
-
         return nextStep
       })
     }, 2000) // Change every 2 seconds
@@ -220,7 +217,6 @@ function HomePage() {
             opacity: 1;
           }
         }
-
         @keyframes slideInFromRight {
           from {
             transform: translateX(100%);
@@ -231,49 +227,63 @@ function HomePage() {
             opacity: 1;
           }
         }
-
         .animate-slide-left {
           animation: slideInFromLeft 0.8s ease-out forwards;
         }
-
         .animate-slide-right {
           animation: slideInFromRight 0.8s ease-out forwards;
         }
-
         .card-initial {
           opacity: 0;
           transform: translateX(-100%);
         }
-
         .card-initial-right {
           opacity: 0;
           transform: translateX(100%);
         }
-
         .card-visible {
           opacity: 1;
           transform: translateX(0);
         }
+        
+        /* 320px responsive fixes */
+        @media (max-width: 320px) {
+          .roadmap-container {
+            transform: scale(0.7);
+            transform-origin: center;
+          }
+          .roadmap-step {
+            width: 200px !important;
+            height: 40px !important;
+          }
+          .roadmap-circle {
+            width: 40px !important;
+            height: 40px !important;
+          }
+          .roadmap-icon {
+            width: 24px !important;
+            height: 24px !important;
+          }
+        }
       `}</style>
-
       <Head>
         <title>Onlaynders.az</title>
         <meta name="description" content="Online dərs platforması" />
       </Head>
 
       <div className="buter">
-        <div className="mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white shadow-sm relative py-4">
-            <div className="container mx-auto px-6 max-w-screen-2xl flex items-center justify-between">
+        <div className="mx-auto px-2 sm:px-4 lg:px-8">
+          <div className="bg-white shadow-sm relative py-2 sm:py-4">
+            <div className="container mx-auto px-2 sm:px-6 max-w-screen-2xl flex items-center justify-between">
               {/* Logo və menyu */}
-              <div className="flex items-center justify-start gap-6">
-                <div className="w-5 h-5 grid grid-cols-2 gap-0.5">
+              <div className="flex items-center justify-start gap-2 sm:gap-6">
+                <div className="w-4 h-4 sm:w-5 sm:h-5 grid grid-cols-2 gap-0.5">
                   <div className="bg-blue-500 rounded-sm"></div>
                   <div className="bg-red-500 rounded-sm"></div>
                   <div className="bg-yellow-500 rounded-sm"></div>
                   <div className="bg-green-500 rounded-sm"></div>
                 </div>
-                <span className="block md:hidden font-semibold text-base text-black">Onlaynders.az</span>
+                <span className="block md:hidden font-semibold text-sm sm:text-base text-black">Onlaynders.az</span>
                 <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-black">
                   <Link href="/">{t("Ana səhifə")}</Link>
                   <Link href="/about">{t("Haqqımızda")}</Link>
@@ -294,31 +304,31 @@ function HomePage() {
 
               {/* Mobil hamburger ikonu */}
               <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
-                {menuOpen ? <X size={24} /> : <Menu size={24} />}
+                {menuOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
             </div>
           </div>
 
           {/* Mobil menyuu hissə */}
           {menuOpen && (
-            <div className="md:hidden bg-white shadow-md rounded px-4 py-4 space-y-3">
-              <Link href="/" className="block text-black">
+            <div className="md:hidden bg-white shadow-md rounded px-2 sm:px-4 py-4 space-y-3">
+              <Link href="/" className="block text-black text-sm">
                 {t("Ana səhifə")}
               </Link>
-              <Link href="/about" className="block text-black">
+              <Link href="/about" className="block text-black text-sm">
                 {t("Haqqımızda")}
               </Link>
-              <Link href="/courses" className="block text-black">
+              <Link href="/courses" className="block text-black text-sm">
                 {t("Dərslər")}
               </Link>
-              <Link href="/trainer" className="block text-black">
+              <Link href="/trainer" className="block text-black text-sm">
                 {t("Təlimçi")}
               </Link>
-              <Link href="/contact" className="block text-black">
+              <Link href="/contact" className="block text-black text-sm">
                 {t("Əlaqə")}
               </Link>
               <button
-                className="hidden md: w-70 mt-2 hover:text-white px-4 py-2  font-medium text-white"
+                className="w-100 mt-2 hover:text-white px-4 py-2 rounded-full font-medium text-white text-sm"
                 style={{
                   background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
                 }}
@@ -330,23 +340,40 @@ function HomePage() {
         </div>
       </div>
 
-      <div className="mx-auto px-4 py-16 text-center">
-        <h1 className="text-4xl font-medium mb-2">Onlaynders.az</h1>
-        <h2 className="text-4xl font-medium text-black-700 mb-6">İnteraktiv Kompüter Dərsləri Platforması</h2>
-        <p className="subtitle text-gray-500 mb-12">
+      <div className="mx-auto px-2 sm:px-4 py-8 sm:py-16 text-center">
+        <h1 className="text-2xl sm:text-4xl font-medium mb-2">Onlaynders.az</h1>
+        <h2 className="text-xl sm:text-4xl font-medium text-black-700 mb-4 sm:mb-6 px-2">
+          İnteraktiv Kompüter Dərsləri Platforması
+        </h2>
+        <p className="subtitle text-gray-500 mb-8 sm:mb-12 text-sm sm:text-base px-2">
           Zamandan və məkandan asılı olmadan, öz sürətinlə ən son kompüter biliklərini öyrən!
         </p>
-
-        <div className="icon cards flex flex-wrap justify-center gap-8 mb-8">
-          <IoLogoWhatsapp fontSize={30} />
-          <FaSquareInstagram fontSize={30} />
-          <BsLinkedin fontSize={30} />
-          <FaFacebookSquare fontSize={30} />
-          <FaYoutube fontSize={30} />
+        <div className="icon cards flex flex-wrap justify-center gap-4 sm:gap-8 mb-6 sm:mb-8 text-gray-600">
+          <IoLogoWhatsapp
+            fontSize={24}
+            className="sm:text-[30px] hover:text-[#25D366] transition-colors duration-300"
+          />
+          <FaSquareInstagram
+            fontSize={24}
+            className="sm:text-[30px] hover:text-[#E1306C] transition-colors duration-300"
+          />
+          <BsLinkedin
+            fontSize={24}
+            className="sm:text-[28px] hover:text-[#0077B5] transition-colors duration-300"
+          />
+          <FaFacebookSquare
+            fontSize={24}
+            className="sm:text-[30px] hover:text-[#1877F2] transition-colors duration-300"
+          />
+          <FaYoutube
+            fontSize={24}
+            className="sm:text-[34px] hover:text-[#FF0000] transition-colors duration-300"
+          />
         </div>
 
+
         <div
-          className=" hidden md:flex flex-wrap gap-[20px] justify-center px-4 md:px-8 pt-6 pr-5 pb-6 pl-5"
+          className="hidden md:flex flex-wrap gap-[20px] justify-center px-4 md:px-8 pt-6 pr-5 pb-6 pl-5"
           style={{ gap: "25px" }}
         >
           <div
@@ -363,11 +390,9 @@ function HomePage() {
               borderBottomLeftRadius: "50px",
             }}
           >
-            Onlaynders.az platforması, kompüter və texnologiya üzrə ən son yenilikləri öyrənmək istəyənlər üçün yaradılmış
-            interaktiv bir tədris vasitəsidir.
+            Onlaynders.az platforması, kompüter və texnologiya üzrə ən son yenilikləri öyrənmək istəyənlər üçün
+            yaradılmış interaktiv bir tədris vasitəsidir.
           </div>
-
-
           <div
             className="text-white shadow-lg flex items-center justify-center text-center overflow-hidden"
             style={{
@@ -384,8 +409,6 @@ function HomePage() {
           >
             Yeni başlayanlar üçün anlaşıqlı və sadə dildə izahlar.
           </div>
-
-
           <div
             className="text-white shadow-lg flex items-center justify-center text-center p-4 text-sm overflow-hidden"
             style={{
@@ -402,11 +425,10 @@ function HomePage() {
           >
             Kurslar, addım-addım izahla birlikdə videolar və ətraflı izahlarla təklif olunur.
           </div>
-
         </div>
 
         {/* respansiv */}
-        <div className="block md:hidden px-4">
+        <div className="block md:hidden px-2 sm:px-4">
           <Swiper
             spaceBetween={8}
             slidesPerView={1}
@@ -418,59 +440,57 @@ function HomePage() {
           >
             <SwiperSlide>
               <div
-                className="text-white shadow-lg flex items-center pt-6 pr-5 pb-6 pl-5 mx-auto"
+                className="text-white shadow-lg flex items-center pt-4 pr-3 pb-4 pl-3 mx-auto text-xs sm:text-sm"
                 style={{
                   width: "100%",
-                  maxWidth: "404px",
-                  height: "172px",
+                  maxWidth: "300px",
+                  height: "140px",
                   backgroundImage: "url('/foto1.jpg')",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   borderTopLeftRadius: "4px",
-                  borderTopRightRadius: "50px",
+                  borderTopRightRadius: "30px",
                   borderBottomRightRadius: "4px",
-                  borderBottomLeftRadius: "50px",
+                  borderBottomLeftRadius: "30px",
                 }}
               >
                 Onlaynders.az platforması, kompüter və texnologiya üzrə ən son yenilikləri öyrənmək istəyənlər üçün
                 yaradılmış interaktiv bir tədris vasitəsidir.
               </div>
             </SwiperSlide>
-
             <SwiperSlide>
               <div
-                className="text-white shadow-lg flex items-center pt-6 pr-5 pb-6 pl-5 mx-auto"
+                className="text-white shadow-lg flex items-center pt-4 pr-3 pb-4 pl-3 mx-auto text-xs sm:text-sm"
                 style={{
                   width: "100%",
-                  maxWidth: "404px",
-                  height: "172px",
+                  maxWidth: "300px",
+                  height: "140px",
                   backgroundImage: "url('/foto2.jpg')",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   borderTopLeftRadius: "4px",
-                  borderTopRightRadius: "50px",
+                  borderTopRightRadius: "30px",
                   borderBottomRightRadius: "4px",
-                  borderBottomLeftRadius: "50px",
+                  borderBottomLeftRadius: "30px",
                 }}
               >
                 Yeni başlayanlar üçün anlaşıqlı və sadə dildə izahlar.
               </div>
             </SwiperSlide>
-
             <SwiperSlide>
               <div
-                className="text-white shadow-lg flex items-center pt-6 pr-5 pb-6 pl-5 mx-auto"
+                className="text-white shadow-lg flex items-center pt-4 pr-3 pb-4 pl-3 mx-auto text-xs sm:text-sm"
                 style={{
                   width: "100%",
-                  maxWidth: "404px",
-                  height: "172px",
+                  maxWidth: "300px",
+                  height: "140px",
                   backgroundImage: "url('/foto3.jpg')",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   borderTopLeftRadius: "4px",
-                  borderTopRightRadius: "50px",
+                  borderTopRightRadius: "30px",
                   borderBottomRightRadius: "4px",
-                  borderBottomLeftRadius: "50px",
+                  borderBottomLeftRadius: "30px",
                 }}
               >
                 Kurslar, addım-addım izahla birlikdə videolar və ətraflı izahlarla təklif olunur.
@@ -480,46 +500,42 @@ function HomePage() {
         </div>
       </div>
 
-
       <div className="butere" ref={animationRef}>
-        <div className="max-w-10xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+        <div className="max-w-10xl mx-auto px-2 sm:px-4 py-8 sm:py-12 lg:px-8">
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             <div className="flex flex-col md:flex-row">
               <motion.div
-                className="md:w-1/2 p-8 flex flex-col justify-center"
+                className="md:w-1/2 p-4 sm:p-8 flex flex-col justify-center"
                 variants={leftVariants}
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
               >
-                <h2 className="text-4xl font-medium mb-6">Onlaynders.az – Təhsil və İnnovasiya</h2>
-
-                <ul className="space-y-4 mb-8">
-                  <li className="flex items-center">
-                    <span className="text-black-700 mr-2">•</span>
-                    <p>
+                <h2 className="text-2xl sm:text-4xl font-medium mb-4 sm:mb-6">Onlaynders.az – Təhsil və İnnovasiya</h2>
+                <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+                  <li className="flex items-start">
+                    <span className="text-black-700 mr-2 text-sm sm:text-base">•</span>
+                    <p className="text-sm sm:text-base">
                       "Onlaynders.az, müasir təhsil yanaşmalarını tətbiq edərək, kompüter və texnologiya sahəsində fərdi
                       inkişafı dəstəkləyən videodərslər təqdim edir."
                     </p>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-black-700 mr-2">•</span>
-                    <p>
+                    <span className="text-black-700 mr-2 text-sm sm:text-base">•</span>
+                    <p className="text-sm sm:text-base">
                       "Bizim məqsədimiz, hər yaşda və hər təcrübə səviyyəsində olan insanlara komputer sahəsində inkişaf
                       etməyi təmin etməkdir."
                     </p>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-black-700 mr-2">•</span>
-                    <p>
+                    <span className="text-black-700 mr-2 text-sm sm:text-base">•</span>
+                    <p className="text-sm sm:text-base">
                       "Platforma, sadə və interaktiv dizaynı ilə istənilən yerdən asanlıqla giriş imkanı təqdim edir."
                     </p>
                   </li>
                 </ul>
-
                 <div>
-                  {/* Button */}
                   <button
-                    className="hover:text-white px-8 py-2 rounded-full font-medium text-white"
+                    className="hover:text-white px-4 sm:px-8 py-2 rounded-full font-medium text-white text-sm sm:text-base"
                     style={{
                       background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
                     }}
@@ -528,7 +544,6 @@ function HomePage() {
                   </button>
                 </div>
               </motion.div>
-
               <motion.div
                 className="md:w-1/2"
                 variants={rightVariants}
@@ -536,8 +551,8 @@ function HomePage() {
                 animate={isInView ? "visible" : "hidden"}
               >
                 <div className="relative h-full w-full">
-                  <div className="flex items-center justify-center p-8">
-                    <div className="relative w-[500px] h-[400px]">
+                  <div className="flex items-center justify-center p-4 sm:p-8">
+                    <div className="relative w-[280px] h-[220px] sm:w-[500px] sm:h-[400px]">
                       <Image
                         src="/komp.png"
                         alt="png"
@@ -558,30 +573,28 @@ function HomePage() {
       </div>
 
       {/* Yol Xəritəsi */}
-      <div className="w-full py-20">
-        <h1 className="text-center text-3xl font-semibold mb-20">Yol Xəritəniz</h1>
-
+      <div className="w-full py-12 sm:py-20">
+        <h1 className="text-center text-2xl sm:text-3xl font-semibold mb-12 sm:mb-20 px-2">Yol Xəritəniz</h1>
         <div className="text-center mb-8">
           <button
             onClick={() => setIsAutoPlaying(!isAutoPlaying)}
             className="px-6 py-2 rounded-full text-sm font-medium transition-colors"
           ></button>
         </div>
-
         <div
-          className="flex justify-center items-center"
-          style={{ width: "80%", margin: "210px auto", minWidth: "407px" }}
+          className="roadmap-container flex justify-center items-center px-2"
+          style={{ width: "80%", margin: "100px auto 100px auto", minWidth: "280px" }}
           onMouseEnter={() => setIsAutoPlaying(false)}
           onMouseLeave={() => setIsAutoPlaying(true)}
         >
           {/* Step 1 */}
           <div
-            className="bg-blue-500 flex justify-center relative"
+            className="roadmap-step bg-blue-500 flex justify-center relative"
             style={{ width: "300px", height: "60px", alignItems: "center" }}
           >
             <div className="absolute bg-blue-500" style={{ width: "3px", height: "90px", top: "-90px" }}></div>
             <div
-              className="bg-blue-500 absolute flex justify-center cursor-pointer"
+              className="roadmap-circle bg-blue-500 absolute flex justify-center cursor-pointer"
               style={{
                 borderRadius: "50%",
                 width: "60px",
@@ -606,11 +619,9 @@ function HomePage() {
                 }
               }}
             >
-              <RiMoneyDollarCircleLine style={{ width: "40px", height: "40px" }} />
+              <RiMoneyDollarCircleLine className="roadmap-icon" style={{ width: "40px", height: "40px" }} />
             </div>
-
             <div className="bg-white" style={{ width: "20px", height: "20px", borderRadius: "50%" }}></div>
-
             <div
               className="absolute transition-all duration-700"
               style={{
@@ -620,19 +631,19 @@ function HomePage() {
                 opacity: openStep[0] ? 1 : 0.5,
               }}
             >
-              <p className="text-3xl font-bold text-center">1</p>
-              <p className="text-lg font-bold">Kursu al</p>
+              <p className="text-2xl sm:text-3xl font-bold text-center">1</p>
+              <p className="text-sm sm:text-lg font-bold">Kursu al</p>
             </div>
           </div>
 
           {/* Step 2 */}
           <div
-            className="bg-green-500 flex justify-center relative"
+            className="roadmap-step bg-green-500 flex justify-center relative"
             style={{ width: "300px", height: "60px", alignItems: "center" }}
           >
             <div className="absolute bg-green-500" style={{ width: "3px", height: "90px", bottom: "-90px" }}></div>
             <div
-              className="bg-green-500 absolute flex justify-center cursor-pointer"
+              className="roadmap-circle bg-green-500 absolute flex justify-center cursor-pointer"
               style={{
                 borderRadius: "50%",
                 width: "60px",
@@ -657,11 +668,9 @@ function HomePage() {
                 }
               }}
             >
-              <FaRegPlayCircle style={{ width: "40px", height: "40px" }} />
+              <FaRegPlayCircle className="roadmap-icon" style={{ width: "40px", height: "40px" }} />
             </div>
-
             <div className="bg-white" style={{ width: "20px", height: "20px", borderRadius: "50%" }}></div>
-
             <div
               className="absolute transition-all duration-700"
               style={{
@@ -671,19 +680,19 @@ function HomePage() {
                 opacity: openStep[1] ? 1 : 0.5,
               }}
             >
-              <p className="text-3xl font-bold text-center">2</p>
-              <p className="text-lg font-bold">Dərsləri izlə</p>
+              <p className="text-2xl sm:text-3xl font-bold text-center">2</p>
+              <p className="text-sm sm:text-lg font-bold">Dərsləri izlə</p>
             </div>
           </div>
 
           {/* Step 3 */}
           <div
-            className="bg-yellow-500 flex justify-center relative"
+            className="roadmap-step bg-yellow-500 flex justify-center relative"
             style={{ width: "300px", height: "60px", alignItems: "center" }}
           >
             <div className="absolute bg-yellow-500" style={{ width: "3px", height: "90px", top: "-90px" }}></div>
             <div
-              className="bg-yellow-500 absolute flex justify-center cursor-pointer"
+              className="roadmap-circle bg-yellow-500 absolute flex justify-center cursor-pointer"
               style={{
                 borderRadius: "50%",
                 width: "60px",
@@ -708,11 +717,9 @@ function HomePage() {
                 }
               }}
             >
-              <PiExamLight style={{ width: "40px", height: "40px" }} />
+              <PiExamLight className="roadmap-icon" style={{ width: "40px", height: "40px" }} />
             </div>
-
             <div className="bg-white" style={{ width: "20px", height: "20px", borderRadius: "50%" }}></div>
-
             <div
               className="absolute transition-all duration-700"
               style={{
@@ -722,19 +729,19 @@ function HomePage() {
                 opacity: openStep[2] ? 1 : 0.5,
               }}
             >
-              <p className="text-3xl font-bold text-center">3</p>
-              <p className="text-lg font-bold">İmtahan ver</p>
+              <p className="text-2xl sm:text-3xl font-bold text-center">3</p>
+              <p className="text-sm sm:text-lg font-bold">İmtahan ver</p>
             </div>
           </div>
 
           {/* Step 4 */}
           <div
-            className="bg-red-500 flex justify-center relative"
+            className="roadmap-step bg-red-500 flex justify-center relative"
             style={{ width: "300px", height: "60px", alignItems: "center" }}
           >
             <div className="absolute bg-red-500" style={{ width: "3px", height: "90px", bottom: "-90px" }}></div>
             <div
-              className="bg-red-500 absolute flex justify-center cursor-pointer"
+              className="roadmap-circle bg-red-500 absolute flex justify-center cursor-pointer"
               style={{
                 borderRadius: "50%",
                 width: "60px",
@@ -759,11 +766,9 @@ function HomePage() {
                 }
               }}
             >
-              <PiCertificate style={{ width: "40px", height: "40px" }} />
+              <PiCertificate className="roadmap-icon" style={{ width: "40px", height: "40px" }} />
             </div>
-
             <div className="bg-white" style={{ width: "20px", height: "20px", borderRadius: "50%" }}></div>
-
             <div
               className="absolute transition-all duration-700"
               style={{
@@ -773,8 +778,8 @@ function HomePage() {
                 opacity: openStep[3] ? 1 : 0.5,
               }}
             >
-              <p className="text-3xl font-bold text-center">4</p>
-              <p className="text-lg font-bold">Sertifikat qazan</p>
+              <p className="text-2xl sm:text-3xl font-bold text-center">4</p>
+              <p className="text-sm sm:text-lg font-bold">Sertifikat qazan</p>
             </div>
           </div>
         </div>
@@ -825,7 +830,6 @@ function HomePage() {
                     />
                   </div>
                 </div>
-
                 <div>
                   <span className="text-gray-500 text-sm">26 December 2019</span>
                   <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -875,7 +879,6 @@ function HomePage() {
                     />
                   </div>
                 </div>
-
                 <div>
                   <span className="text-gray-500 text-sm">26 December 2019</span>
                   <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -924,7 +927,6 @@ function HomePage() {
                     />
                   </div>
                 </div>
-
                 <div>
                   <span className="text-gray-500 text-sm">26 December 2019</span>
                   <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -973,7 +975,6 @@ function HomePage() {
                     />
                   </div>
                 </div>
-
                 <div>
                   <span className="text-gray-500 text-sm">26 December 2019</span>
                   <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
@@ -995,9 +996,9 @@ function HomePage() {
         </div>
 
         {/* respansiv (karusel) */}
-        <div className="block md:hidden py-12 bg-[#F8F8F8]">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-medium text-center mb-8">Dərslər</h2>
+        <div className="block md:hidden py-8 sm:py-12 bg-[#F8F8F8]">
+          <div className="container mx-auto px-2 sm:px-4">
+            <h2 className="text-2xl sm:text-3xl font-medium text-center mb-6 sm:mb-8">Dərslər</h2>
             <Slider
               dots={true}
               infinite={false}
@@ -1025,41 +1026,34 @@ function HomePage() {
               ]}
             >
               {/* Kart 1 */}
-              <div className="px-4">
+              <div className="px-2 sm:px-4">
                 <div
                   className="flex flex-col bg-white shadow-lg items-center justify-center relative overflow-visible mx-auto rounded-lg"
                   style={{
-                    width: "343px",
-                    height: "411px",
-                    gap: "40px",
-                    paddingTop: "30px",
-                    paddingRight: "12px",
-                    paddingBottom: "30px",
-                    paddingLeft: "12px",
+                    width: "280px",
+                    height: "350px",
+                    gap: "20px",
+                    paddingTop: "20px",
+                    paddingRight: "8px",
+                    paddingBottom: "20px",
+                    paddingLeft: "8px",
                   }}
                 >
                   {/* Şəkil çərçivəsi ilə */}
                   <div className="flex justify-center items-center w-full">
-                    <div
-                      className="w-[120px] h-[120px] flex justify-center items-center bg-[#F1F5F9] border-2 border-blue-500 rounded-lg p-2"
-                    >
-                      <img
-                        src="/foto11.png"
-                        alt="Kurs şəkli"
-                        className="w-[100px] h-[100px] object-contain rounded-lg"
-                      />
+                    <div className="w-[100px] h-[100px] flex justify-center items-center bg-[#F1F5F9] border-2 border-blue-500 rounded-lg p-2">
+                      <img src="/foto11.png" alt="Kurs şəkli" className="w-[80px] h-[80px] object-contain rounded-lg" />
                     </div>
                   </div>
-
                   {/* Mətni hissə */}
-                  <div className="flex flex-col justify-center items-center text-center flex-grow">
-                    <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
-                    <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
-                    <p className="text-gray-700 mb-4">
+                  <div className="flex flex-col justify-center items-center text-center flex-grow px-2">
+                    <span className="text-gray-500 text-xs mb-2">26 December 2019</span>
+                    <h3 className="text-base font-bold my-2">Lorem ipsum dolor</h3>
+                    <p className="text-gray-700 mb-4 text-sm">
                       Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
                     </p>
                     <button
-                      className="hover:text-white px-8 py-2 font-medium text-white"
+                      className="hover:text-white px-4 py-2 font-medium text-white text-sm"
                       style={{
                         background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
                         borderRadius: "80px",
@@ -1070,44 +1064,36 @@ function HomePage() {
                   </div>
                 </div>
               </div>
-
 
               {/* Kart 2 */}
-              <div className="px-4">
+              <div className="px-2 sm:px-4">
                 <div
                   className="flex flex-col bg-white shadow-lg items-center justify-center relative overflow-visible mx-auto rounded-lg"
                   style={{
-                    width: "343px",
-                    height: "411px",
-                    gap: "40px",
-                    paddingTop: "30px",
-                    paddingRight: "12px",
-                    paddingBottom: "30px",
-                    paddingLeft: "12px",
+                    width: "280px",
+                    height: "350px",
+                    gap: "20px",
+                    paddingTop: "20px",
+                    paddingRight: "8px",
+                    paddingBottom: "20px",
+                    paddingLeft: "8px",
                   }}
                 >
                   {/* Şəkil çərçivəsi ilə */}
                   <div className="flex justify-center items-center w-full">
-                    <div
-                      className="w-[120px] h-[120px] flex justify-center items-center bg-[#F1F5F9] border-2 border-blue-500 rounded-lg p-2"
-                    >
-                      <img
-                        src="/foto12.png"
-                        alt="Kurs şəkli"
-                        className="w-[100px] h-[100px] object-contain rounded-lg"
-                      />
+                    <div className="w-[100px] h-[100px] flex justify-center items-center bg-[#F1F5F9] border-2 border-blue-500 rounded-lg p-2">
+                      <img src="/foto12.png" alt="Kurs şəkli" className="w-[80px] h-[80px] object-contain rounded-lg" />
                     </div>
                   </div>
-
                   {/* Mətni hissə */}
-                  <div className="flex flex-col justify-center items-center text-center flex-grow">
-                    <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
-                    <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
-                    <p className="text-gray-700 mb-4">
+                  <div className="flex flex-col justify-center items-center text-center flex-grow px-2">
+                    <span className="text-gray-500 text-xs mb-2">26 December 2019</span>
+                    <h3 className="text-base font-bold my-2">Lorem ipsum dolor</h3>
+                    <p className="text-gray-700 mb-4 text-sm">
                       Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
                     </p>
                     <button
-                      className="hover:text-white px-8 py-2 font-medium text-white"
+                      className="hover:text-white px-4 py-2 font-medium text-white text-sm"
                       style={{
                         background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
                         borderRadius: "80px",
@@ -1118,44 +1104,35 @@ function HomePage() {
                   </div>
                 </div>
               </div>
-
 
               {/* Kart 3 */}
-              <div className="px-4">
+              <div className="px-2 sm:px-4">
                 <div
                   className="flex flex-col bg-white shadow-lg items-center justify-center relative overflow-visible mx-auto rounded-lg"
                   style={{
-                    width: "343px",
-                    height: "411px",
-                    gap: "40px",
-                    paddingTop: "30px",
-                    paddingRight: "12px",
-                    paddingBottom: "30px",
-                    paddingLeft: "12px",
+                    width: "280px",
+                    height: "350px",
+                    gap: "20px",
+                    paddingTop: "20px",
+                    paddingRight: "8px",
+                    paddingBottom: "20px",
+                    paddingLeft: "8px",
                   }}
                 >
-
                   <div className="flex justify-center items-center w-full">
-                    <div
-                      className="w-[120px] h-[120px] flex justify-center items-center bg-[#F1F5F9] border-2 border-blue-500 rounded-lg p-2"
-                    >
-                      <img
-                        src="/foto13.png"
-                        alt="Kurs şəkli"
-                        className="w-[100px] h-[100px] object-contain rounded-lg"
-                      />
+                    <div className="w-[100px] h-[100px] flex justify-center items-center bg-[#F1F5F9] border-2 border-blue-500 rounded-lg p-2">
+                      <img src="/foto13.png" alt="Kurs şəkli" className="w-[80px] h-[80px] object-contain rounded-lg" />
                     </div>
                   </div>
-
                   {/* Mətni hissə */}
-                  <div className="flex flex-col justify-center items-center text-center flex-grow">
-                    <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
-                    <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
-                    <p className="text-gray-700 mb-4">
+                  <div className="flex flex-col justify-center items-center text-center flex-grow px-2">
+                    <span className="text-gray-500 text-xs mb-2">26 December 2019</span>
+                    <h3 className="text-base font-bold my-2">Lorem ipsum dolor</h3>
+                    <p className="text-gray-700 mb-4 text-sm">
                       Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
                     </p>
                     <button
-                      className="hover:text-white px-8 py-2 font-medium text-white"
+                      className="hover:text-white px-4 py-2 font-medium text-white text-sm"
                       style={{
                         background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
                         borderRadius: "80px",
@@ -1167,43 +1144,35 @@ function HomePage() {
                 </div>
               </div>
 
-
               {/* Kart 4 */}
-              <div className="px-4">
+              <div className="px-2 sm:px-4">
                 <div
                   className="flex flex-col bg-white shadow-lg items-center justify-center relative overflow-visible mx-auto rounded-lg"
                   style={{
-                    width: "343px",
-                    height: "411px",
-                    gap: "40px",
-                    paddingTop: "30px",
-                    paddingRight: "12px",
-                    paddingBottom: "30px",
-                    paddingLeft: "12px",
+                    width: "280px",
+                    height: "350px",
+                    gap: "20px",
+                    paddingTop: "20px",
+                    paddingRight: "8px",
+                    paddingBottom: "20px",
+                    paddingLeft: "8px",
                   }}
                 >
                   {/* Şəkil çərçivəsi ilə */}
                   <div className="flex justify-center items-center w-full">
-                    <div
-                      className="w-[120px] h-[120px] flex justify-center items-center bg-[#F1F5F9] border-2 border-blue-500 rounded-lg p-2"
-                    >
-                      <img
-                        src="/foto15.png"
-                        alt="Kurs şəkli"
-                        className="w-[100px] h-[100px] object-contain rounded-lg"
-                      />
+                    <div className="w-[100px] h-[100px] flex justify-center items-center bg-[#F1F5F9] border-2 border-blue-500 rounded-lg p-2">
+                      <img src="/foto15.png" alt="Kurs şəkli" className="w-[80px] h-[80px] object-contain rounded-lg" />
                     </div>
                   </div>
-
                   {/* Mətni hissə */}
-                  <div className="flex flex-col justify-center items-center text-center flex-grow">
-                    <span className="text-gray-500 text-sm mb-2">26 December 2019</span>
-                    <h3 className="text-lg font-bold my-2">Lorem ipsum dolor</h3>
-                    <p className="text-gray-700 mb-4">
+                  <div className="flex flex-col justify-center items-center text-center flex-grow px-2">
+                    <span className="text-gray-500 text-xs mb-2">26 December 2019</span>
+                    <h3 className="text-base font-bold my-2">Lorem ipsum dolor</h3>
+                    <p className="text-gray-700 mb-4 text-sm">
                       Lorem ipsum dolor sit amet consectetur. Amet dictum tincidunt at quisque odio vitae aliquet neque.
                     </p>
                     <button
-                      className="hover:text-white px-8 py-2 font-medium text-white"
+                      className="hover:text-white px-4 py-2 font-medium text-white text-sm"
                       style={{
                         background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
                         borderRadius: "80px",
@@ -1214,7 +1183,6 @@ function HomePage() {
                   </div>
                 </div>
               </div>
-
             </Slider>
           </div>
         </div>
@@ -1222,7 +1190,7 @@ function HomePage() {
 
       {/* Təlimçi bölməsi */}
       <div
-        className="bg-white py-20"
+        className="bg-white py-12 sm:py-20"
         style={{
           width: "80%",
           margin: "0 auto",
@@ -1230,21 +1198,20 @@ function HomePage() {
         ref={trainerRef}
       >
         {/* Başlıq */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-medium text-gray-900">Təlimçi</h2>
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-4xl font-medium text-gray-900 px-2">Təlimçi</h2>
         </div>
 
         {/* text */}
-        <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-10">
-
+        <div className="container mx-auto px-2 sm:px-4 flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-10">
           <motion.div
-            className="md:w-1/2 text-left px-4"
+            className="md:w-1/2 text-left px-2 sm:px-4"
             variants={leftVariants}
             initial="hidden"
             animate={isTrainerInView ? "visible" : "hidden"}
           >
-            <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">Orxan Məmmədov</h3>
-            <p className="text-sm sm:text-base md:text-[16px] text-gray-700 leading-relaxed">
+            <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-3 sm:mb-4">Orxan Məmmədov</h3>
+            <p className="text-xs sm:text-sm md:text-[16px] text-gray-700 leading-relaxed">
               Lorem ipsum dolor sit amet consectetur. Varius enim eu ac tempus integer. In urna eget tortor morbi odio
               sed et tincidunt. Massa eget eu scelerisque egestas arcu enim semper. Amet sociis ut gravida mus varius
               facilisis tristique. Nisl mauris malesuada id massa. Viverra amet sem non lectus turpis dignissim gravida
@@ -1262,36 +1229,37 @@ function HomePage() {
             animate={isTrainerInView ? "visible" : "hidden"}
           >
             <div
-              className="shadow-xl relative w-[280px] h-[300px] sm:w-[320px] sm:h-[340px] md:w-[370px] md:h-[400px] lg:w-[420px] lg:h-[450px] xl:w-[460px] xl:h-[480px]"
+              className="shadow-xl relative w-[200px] h-[220px] sm:w-[280px] sm:h-[300px] md:w-[370px] md:h-[400px] lg:w-[420px] lg:h-[450px] xl:w-[460px] xl:h-[480px]"
               style={{
-               background: "linear-gradient(180deg, #EEEEEE 0%, #082C81 100%)",
-
+                background: "linear-gradient(180deg, #EEEEEE 0%, #082C81 100%)",
                 borderRadius: "200px 20px 0px 0px",
               }}
             >
               <img
                 src="/orxan.png"
                 alt="Orxan Məmmədov"
-                className="object-cover absolute w-[300px] h-[320px] sm:w-[340px] sm:h-[360px] md:w-[380px] md:h-[400px] lg:w-[440px] lg:h-[460px] xl:w-[496px] xl:h-[500px]"
+                className="object-cover absolute w-[220px] h-[240px] sm:w-[300px] sm:h-[320px] md:w-[380px] md:h-[400px] lg:w-[440px] lg:h-[460px] xl:w-[496px] xl:h-[500px]"
                 style={{
                   bottom: "-30px",
                   right: "-10px",
-                  
                 }}
                 width={496}
                 height={500}
               />
             </div>
           </motion.div>
-
         </div>
       </div>
 
       {/* Əlaqə forması bölməsi */}
-      <div className="flex items-center justify-center p-4" style={{ backgroundColor: "#f1f1f1" }} ref={contactRef}>
-        <div className="w-full max-w-2xl p-8">
+      <div
+        className="flex items-center justify-center p-2 sm:p-4"
+        style={{ backgroundColor: "#f1f1f1" }}
+        ref={contactRef}
+      >
+        <div className="w-full max-w-2xl p-4 sm:p-8">
           <motion.h1
-            className="text-4xl font-semibold text-center mb-12 text-black"
+            className="text-2xl sm:text-4xl font-semibold text-center mb-8 sm:mb-12 text-black"
             variants={leftVariants}
             initial="hidden"
             animate={isContactInView ? "visible" : "hidden"}
@@ -1299,16 +1267,16 @@ function HomePage() {
             Əlaqə
           </motion.h1>
 
-          <form onSubmit={handleContactSubmit} className="space-y-6">
+          <form onSubmit={handleContactSubmit} className="space-y-4 sm:space-y-6">
             {/* Ad və Soyad */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <motion.div
                 className="space-y-2"
                 variants={leftVariants}
                 initial="hidden"
                 animate={isContactInView ? "visible" : "hidden"}
               >
-                <label htmlFor="ad" className="text-[16px] font-medium text-black block">
+                <label htmlFor="ad" className="text-sm sm:text-[16px] font-medium text-black block">
                   Ad
                 </label>
                 <input
@@ -1318,17 +1286,16 @@ function HomePage() {
                   placeholder="Ismixan"
                   value={contactFormData.ad}
                   onChange={handleContactInputChange}
-                  className="h-12 w-full bg-[#EFEEEE] border border-black px-4 py-2 text-black placeholder:text-gray-500 rounded focus:outline-none focus:border-black"
+                  className="h-10 sm:h-12 w-full bg-[#EFEEEE] border border-black px-3 sm:px-4 py-2 text-black placeholder:text-gray-500 rounded focus:outline-none focus:border-black text-sm sm:text-base"
                 />
               </motion.div>
-
               <motion.div
                 className="space-y-2"
                 variants={rightVariants}
                 initial="hidden"
                 animate={isContactInView ? "visible" : "hidden"}
               >
-                <label htmlFor="soyad" className="text-[16px] font-medium text-black block">
+                <label htmlFor="soyad" className="text-sm sm:text-[16px] font-medium text-black block">
                   Soyad
                 </label>
                 <input
@@ -1338,7 +1305,7 @@ function HomePage() {
                   placeholder="Ismixanov"
                   value={contactFormData.soyad}
                   onChange={handleContactInputChange}
-                  className="h-12 w-full bg-[#EFEEEE] border border-black px-4 py-2 text-black placeholder:text-gray-500 rounded focus:outline-none focus:border-black"
+                  className="h-10 sm:h-12 w-full bg-[#EFEEEE] border border-black px-3 sm:px-4 py-2 text-black placeholder:text-gray-500 rounded focus:outline-none focus:border-black text-sm sm:text-base"
                 />
               </motion.div>
             </div>
@@ -1350,7 +1317,7 @@ function HomePage() {
               initial="hidden"
               animate={isContactInView ? "visible" : "hidden"}
             >
-              <label htmlFor="contact-email" className="text-[16px] font-medium text-black block">
+              <label htmlFor="contact-email" className="text-sm sm:text-[16px] font-medium text-black block">
                 Email
               </label>
               <input
@@ -1360,7 +1327,7 @@ function HomePage() {
                 placeholder="Example@gmail.com"
                 value={contactFormData.email}
                 onChange={handleContactInputChange}
-                className="h-12 w-full bg-[#EFEEEE] border border-black px-4 py-2 text-black placeholder:text-gray-500 rounded focus:outline-none focus:border-black"
+                className="h-10 sm:h-12 w-full bg-[#EFEEEE] border border-black px-3 sm:px-4 py-2 text-black placeholder:text-gray-500 rounded focus:outline-none focus:border-black text-sm sm:text-base"
               />
             </motion.div>
 
@@ -1371,7 +1338,7 @@ function HomePage() {
               initial="hidden"
               animate={isContactInView ? "visible" : "hidden"}
             >
-              <label htmlFor="telefon" className="text-[16px] font-medium text-black block">
+              <label htmlFor="telefon" className="text-sm sm:text-[16px] font-medium text-black block">
                 Telefon nömrəsi
               </label>
               <input
@@ -1381,7 +1348,7 @@ function HomePage() {
                 placeholder="099 999 99 99"
                 value={contactFormData.telefon}
                 onChange={handleContactInputChange}
-                className="h-12 w-full bg-[#EFEEEE] border border-black px-4 py-2 text-black placeholder:text-gray-500 rounded focus:outline-none focus:border-black"
+                className="h-10 sm:h-12 w-full bg-[#EFEEEE] border border-black px-3 sm:px-4 py-2 text-black placeholder:text-gray-500 rounded focus:outline-none focus:border-black text-sm sm:text-base"
               />
             </motion.div>
 
@@ -1392,7 +1359,7 @@ function HomePage() {
               initial="hidden"
               animate={isContactInView ? "visible" : "hidden"}
             >
-              <label htmlFor="mesaj" className="text-[16px] font-medium text-black block">
+              <label htmlFor="mesaj" className="text-sm sm:text-[16px] font-medium text-black block">
                 Mesaj
               </label>
               <textarea
@@ -1400,9 +1367,9 @@ function HomePage() {
                 name="mesaj"
                 value={contactFormData.mesaj}
                 onChange={handleContactInputChange}
-                rows={6}
+                rows={4}
                 placeholder=""
-                className="w-full bg-[#EFEEEE] border border-black px-4 py-2 text-black placeholder:text-gray-500 rounded resize-none focus:outline-none focus:border-black"
+                className="w-full bg-[#EFEEEE] border border-black px-3 sm:px-4 py-2 text-black placeholder:text-gray-500 rounded resize-none focus:outline-none focus:border-black text-sm sm:text-base"
               />
             </motion.div>
 
@@ -1414,7 +1381,7 @@ function HomePage() {
               animate={isContactInView ? "visible" : "hidden"}
             >
               <button
-                className="hover:text-white px-8 py-2 rounded-full font-medium text-white"
+                className="hover:text-white px-4 sm:px-8 py-2 rounded-full font-medium text-white text-sm sm:text-base"
                 style={{
                   background: "linear-gradient(90deg, #0A4CA5 0%, #4886AD 100%)",
                 }}
@@ -1427,83 +1394,98 @@ function HomePage() {
       </div>
 
       {/* Footer */}
-      <footer className="w-full mt-20 py-8" style={{ backgroundColor: "#f1f1f1", marginTop: "50px" }} ref={footerRef}>
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr] gap-8">
+      <footer
+        className="w-full mt-12 sm:mt-20 py-6 sm:py-8"
+        style={{ backgroundColor: "#f1f1f1", marginTop: "50px" }}
+        ref={footerRef}
+      >
+        <div className="max-w-6xl mx-auto px-2 sm:px-4">
+          <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr] gap-6 sm:gap-8">
             {/* Logo */}
             <motion.div
-              className="space-y-4 flex flex-col"
+              className="space-y-3 sm:space-y-4 flex flex-col"
               variants={fallDownVariants}
               initial="hidden"
               animate={isFooterInView ? "visible" : "hidden"}
             >
               <div className="flex items-center space-x-2">
-                <div className="grid grid-cols-2 gap-1 w-8 h-8">
+                <div className="grid grid-cols-2 gap-1 w-6 h-6 sm:w-8 sm:h-8">
                   <div className="bg-blue-500 rounded-sm"></div>
                   <div className="bg-green-500 rounded-sm"></div>
                   <div className="bg-yellow-500 rounded-sm"></div>
                   <div className="bg-red-500 rounded-sm"></div>
                 </div>
-                <h2 className="text-2xl font-bold text-gray-800">Onlaynders.az</h2>
+                <h2 className="text-lg sm:text-2xl font-bold text-gray-800">Onlaynders.az</h2>
               </div>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
                 Lorem ipsum dolor sit amet consectetur. Varius enim eu ac tempus integer. In urna eget tortor morbi odio
                 sed et tincidunt.
               </p>
             </motion.div>
 
             <motion.div
-              className="space-y-4"
+              className="space-y-3 sm:space-y-4"
               variants={fallDownVariants}
               initial="hidden"
               animate={isFooterInView ? "visible" : "hidden"}
             >
-              <h3 className="text-lg font-semibold text-gray-800">Ana səhifə</h3>
-              <nav className="flex flex-col space-y-3">
-                <a href="#" className="text-black hover:text-gray-800 transition-colors">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-800">Ana səhifə</h3>
+              <nav className="flex flex-col space-y-2 sm:space-y-3">
+                <a href="#" className="text-black hover:text-gray-800 transition-colors text-sm sm:text-base">
                   Haqqımızda
                 </a>
-                <a href="#" className="text-black hover:text-gray-800 transition-colors">
+                <a href="#" className="text-black hover:text-gray-800 transition-colors text-sm sm:text-base">
                   Dərslər
                 </a>
-                <a href="#" className="text-black hover:text-gray-800 transition-colors">
+                <a href="#" className="text-black hover:text-gray-800 transition-colors text-sm sm:text-base">
                   Əlaqə
                 </a>
-                <a href="#" className="text-black hover:text-gray-800 transition-colors">
+                <a href="#" className="text-black hover:text-gray-800 transition-colors text-sm sm:text-base">
                   Təlimçi
                 </a>
               </nav>
             </motion.div>
 
             <motion.div
-              className="space-y-4"
+              className="space-y-3 sm:space-y-4"
               variants={fallDownVariants}
               initial="hidden"
               animate={isFooterInView ? "visible" : "hidden"}
             >
-              <h3 className="text-lg font-semibold text-gray-800">Əlaqə məlumatları</h3>
-              <p className="text-gray-600 text-sm">Hər hansı sualınız varsa bizimlə əlaqə saxlayın</p>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <FaPhone className="w-5 h-5 text-black" />
-                  <span className="text-black">+009 980 92 98</span>
+              <h3 className="text-base sm:text-lg font-semibold text-gray-800">Əlaqə məlumatları</h3>
+              <p className="text-gray-600 text-xs sm:text-sm">Hər hansı sualınız varsa bizimlə əlaqə saxlayın</p>
+              <div className="space-y-2 sm:space-y-3">
+                <div className="flex items-center space-x-2 sm:space-x-3">
+                  <FaPhone className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
+                  <span className="text-black text-xs sm:text-base">+009 980 92 98</span>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <FaEnvelope className="w-5 h-5 text-black" />
-                  <span className="text-black">info.onlayders@gmail.com</span>
+                <div className="flex items-center space-x-2 sm:space-x-3">
+                  <FaEnvelope className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
+                  <span className="text-black text-xs sm:text-base">info.onlayders@gmail.com</span>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <FaMapMarkerAlt className="w-5 h-5 text-black" />
-                  <span className="text-black">Bakı, Azərbaycan</span>
+                <div className="flex items-center space-x-2 sm:space-x-3">
+                  <FaMapMarkerAlt className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
+                  <span className="text-black text-xs sm:text-base">Bakı, Azərbaycan</span>
                 </div>
-
                 {/* ikonlar  */}
-                <div className="flex flex-wrap gap-4 pt-2">
-                  <IoLogoWhatsapp fontSize={24} className="text-black hover:text-green-500 transition-colors" />
-                  <FaSquareInstagram fontSize={24} className="text-black hover:text-pink-500 transition-colors" />
-                  <BsLinkedin fontSize={24} className="text-black hover:text-blue-700 transition-colors" />
-                  <FaFacebookSquare fontSize={24} className="text-black hover:text-blue-600 transition-colors" />
-                  <FaYoutube fontSize={24} className="text-black hover:text-red-600 transition-colors" />
+                <div className="flex flex-wrap gap-3 sm:gap-4 pt-2">
+                  <IoLogoWhatsapp
+                    fontSize={20}
+                    className="sm:text-[24px] text-black hover:text-green-500 transition-colors"
+                  />
+                  <FaSquareInstagram
+                    fontSize={20}
+                    className="sm:text-[24px] text-black hover:text-pink-500 transition-colors"
+                  />
+                  <BsLinkedin
+                    fontSize={20}
+                    className="sm:text-[24px] text-black hover:text-blue-700 transition-colors"
+                  />
+                  <FaFacebookSquare
+                    fontSize={20}
+                    className="sm:text-[24px] text-black hover:text-blue-600 transition-colors"
+                  />
+                  <FaYoutube fontSize={20} className="sm:text-[24px] text-black hover:text-red-600 transition-colors" />
                 </div>
               </div>
             </motion.div>
