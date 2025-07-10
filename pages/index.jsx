@@ -997,7 +997,7 @@ function HomePage() {
 
         {/* respansiv (karusel) */}
         <div className="block md:hidden py-8 sm:py-12 bg-[#F8F8F8]">
-          <div className="container mx-auto px-2 sm:px-4">
+          <div className="container mx-auto px-2 sm:px-4 overflow-x-hidden">
             <h2 className="text-2xl sm:text-3xl font-medium text-center mb-6 sm:mb-8">Dərslər</h2>
             <Slider
               dots={true}
@@ -1240,7 +1240,7 @@ function HomePage() {
                 alt="Orxan Məmmədov"
                 className="object-cover absolute w-[220px] h-[240px] sm:w-[300px] sm:h-[320px] md:w-[380px] md:h-[400px] lg:w-[440px] lg:h-[460px] xl:w-[496px] xl:h-[500px]"
                 style={{
-                  bottom: "-30px",
+                  bottom: "-20px",
                   right: "-10px",
                 }}
                 width={496}
